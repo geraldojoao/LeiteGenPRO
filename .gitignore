@@ -1,0 +1,48 @@
+# Dependencies
+node_modules/
+
+# Expo and React Native generated files
+.expo/
+.expo-shared/
+expo-env.d.ts
+web-build/
+dist/
+
+# Native build outputs
+android/
+ios/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Deployment and local service metadata
+.vercel/
+.netlify/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Logs and diagnostics
+*.log
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+pnpm-debug.*
+
+# Coverage and test output
+coverage/
+.nyc_output/
+
+# Editor, OS and temporary files
+.DS_Store
+Thumbs.db
+*.tmp
+*.temp
+*.orig.*
+*.screenshot.png
+*-check.png
+
