@@ -102,7 +102,7 @@ export default function CheckoutScreen(): JSX.Element {
     Toast.show({
       type: 'success',
       text1: 'Item removido',
-      text2: `${nome} saiu do checkout e dos favoritos.`,
+      text2: `${nome} saiu do pedido e dos favoritos.`,
     });
   }
 
@@ -112,7 +112,7 @@ export default function CheckoutScreen(): JSX.Element {
     const digitsDocumento = buyerData.documento.replace(/\D/g, '');
 
     if (!touros.length) {
-      setFormError('Seu carrinho está vazio. Adicione ao menos um touro para finalizar.');
+      setFormError('Sua lista está vazia. Escolha ao menos um touro para finalizar.');
       return false;
     }
 
@@ -155,7 +155,7 @@ export default function CheckoutScreen(): JSX.Element {
       Toast.show({
         type: 'error',
         text1: 'Dados incompletos',
-        text2: 'Confira os campos destacados no checkout.',
+        text2: 'Confira os campos destacados antes de finalizar.',
       });
       return;
     }
@@ -169,7 +169,7 @@ export default function CheckoutScreen(): JSX.Element {
       setSuccessVisible(true);
       Toast.show({
         type: 'success',
-        text1: 'Solicitação enviada',
+        text1: 'Pedido enviado',
         text2: 'Nossa equipe entrará em contato.',
       });
     }, 900);
@@ -187,15 +187,13 @@ export default function CheckoutScreen(): JSX.Element {
       >
         <View style={[styles.header, responsive.isMobile && styles.headerStack]}>
           <View style={styles.headingText}>
-            <Text style={styles.eyebrow}>Checkout</Text>
-            <Text style={styles.title}>Finalizar compra</Text>
-            <Text style={styles.subtitle}>
-              Simule a solicitação comercial dos touros favoritados. Nenhum dado é enviado para gateways ou APIs externas.
-            </Text>
+            <Text style={styles.eyebrow}>Pedido</Text>
+            <Text style={styles.title}>Finalizar pedido</Text>
+            <Text style={styles.subtitle}>Confira os touros escolhidos e envie sua solicitação.</Text>
           </View>
           <View style={styles.secureBadge}>
             <MaterialCommunityIcons name="shield-check-outline" size={20} color={colors.primary} />
-            <Text style={styles.secureText}>Simulação segura</Text>
+            <Text style={styles.secureText}>Sem cobrança real</Text>
           </View>
         </View>
 
@@ -203,8 +201,8 @@ export default function CheckoutScreen(): JSX.Element {
           <View style={styles.emptyWrap}>
             <EmptyState
               icon="cart-outline"
-              title="Seu carrinho está vazio"
-              message="Marque touros como favoritos no catálogo para montar uma solicitação de compra simulada."
+              title="Nenhum touro escolhido"
+              message="Toque no coração de um touro para montar seu pedido."
             />
             <Pressable
               accessibilityLabel="Voltar para a busca de touros"
@@ -220,13 +218,13 @@ export default function CheckoutScreen(): JSX.Element {
             <View style={styles.mainColumn}>
               <View style={styles.sectionHeader}>
                 <View>
-                  <Text style={styles.sectionTitle}>Itens selecionados</Text>
+                  <Text style={styles.sectionTitle}>Touros escolhidos</Text>
                   <Text style={styles.sectionSubtitle}>
-                    {total} {total === 1 ? 'touro favoritado' : 'touros favoritados'} no carrinho
+                    {total} {total === 1 ? 'touro na lista' : 'touros na lista'}
                   </Text>
                 </View>
                 <Pressable
-                  accessibilityLabel="Adicionar mais touros ao checkout"
+                  accessibilityLabel="Adicionar mais touros"
                   onPress={() => router.push('/busca' as never)}
                   style={({ pressed }) => [styles.linkButton, pressed && styles.pressed]}
                 >
@@ -303,15 +301,15 @@ function PurchaseSummary({
 }): JSX.Element {
   return (
     <View style={styles.summaryCard}>
-      <Text style={styles.summaryTitle}>Resumo da compra</Text>
+      <Text style={styles.summaryTitle}>Resumo do pedido</Text>
       <View style={styles.summaryLines}>
         <SummaryLine label={`${itemCount} ${itemCount === 1 ? 'touro' : 'touros'}`} value={`${quantityTotal} doses`} />
         <SummaryLine label="Subtotal" value={formatCurrency(subtotal)} />
-        <SummaryLine label="Taxa operacional simulada (2%)" value={formatCurrency(operationalFee)} />
-        <SummaryLine label="Assessoria logística" value={formatCurrency(logistics)} />
+        <SummaryLine label="Apoio comercial (2%)" value={formatCurrency(operationalFee)} />
+        <SummaryLine label="Entrega e apoio" value={formatCurrency(logistics)} />
       </View>
       <View style={styles.totalBox}>
-        <Text style={styles.totalLabel}>Total final</Text>
+        <Text style={styles.totalLabel}>Total do pedido</Text>
         <Text style={styles.totalValue}>{formatCurrency(total)}</Text>
       </View>
 
@@ -323,7 +321,7 @@ function PurchaseSummary({
       ) : null}
 
       <Pressable
-        accessibilityLabel="Finalizar compra simulada"
+        accessibilityLabel="Finalizar pedido"
         disabled={isSubmitting}
         onPress={onFinish}
         style={({ pressed }) => [
@@ -333,9 +331,9 @@ function PurchaseSummary({
         ]}
       >
         {isSubmitting ? <ActivityIndicator color={colors.surface} /> : <MaterialCommunityIcons name="check-circle-outline" size={20} color={colors.surface} />}
-        <Text style={styles.finishButtonText}>{isSubmitting ? 'Enviando solicitação...' : 'Finalizar compra'}</Text>
+        <Text style={styles.finishButtonText}>{isSubmitting ? 'Enviando pedido...' : 'Finalizar pedido'}</Text>
       </Pressable>
-      <Text style={styles.safeNote}>Checkout visual. Nenhuma cobrança real será criada.</Text>
+      <Text style={styles.safeNote}>Pedido demonstrativo. Nenhuma cobrança real será criada.</Text>
     </View>
   );
 }
@@ -371,25 +369,23 @@ function SuccessModal({
           <View style={styles.modalIcon}>
             <MaterialCommunityIcons name="check" size={30} color={colors.surface} />
           </View>
-          <Text style={styles.modalTitle}>Solicitação enviada</Text>
-          <Text style={styles.modalText}>
-            Solicitação de compra enviada com sucesso! Nossa equipe entrará em contato.
-          </Text>
+          <Text style={styles.modalTitle}>Pedido enviado</Text>
+          <Text style={styles.modalText}>Sua solicitação foi registrada. Nossa equipe entrará em contato.</Text>
           <View style={styles.protocolBox}>
             <SummaryLine label="Protocolo" value={orderCode || 'LG-DEMO'} />
             <SummaryLine label="Método" value={methodLabel} />
-            <SummaryLine label="Total simulado" value={formatCurrency(total)} />
+            <SummaryLine label="Total do pedido" value={formatCurrency(total)} />
           </View>
           <View style={styles.modalActions}>
             <Pressable
-              accessibilityLabel="Voltar ao carrinho"
+              accessibilityLabel="Voltar aos favoritos"
               onPress={() => {
                 onClose();
                 router.replace('/carrinho' as never);
               }}
               style={({ pressed }) => [styles.modalSecondaryButton, pressed && styles.pressed]}
             >
-              <Text style={styles.modalSecondaryText}>Carrinho</Text>
+              <Text style={styles.modalSecondaryText}>Favoritos</Text>
             </Pressable>
             <Pressable
               accessibilityLabel="Explorar mais touros"
@@ -439,23 +435,23 @@ const styles = StyleSheet.create({
     color: colors.danger,
     flex: 1,
     fontFamily: fonts.heading,
-    fontSize: 12,
-    lineHeight: 18,
+    fontSize: 16,
+    lineHeight: 22,
   },
   eyebrow: {
-    color: colors.secondary,
+    color: colors.primary,
     fontFamily: fonts.heading,
-    fontSize: 12,
+    fontSize: 16,
     textTransform: 'uppercase',
   },
   finishButton: {
     alignItems: 'center',
     backgroundColor: colors.primary,
-    borderRadius: radii.pill,
+    borderRadius: radii.sm,
     flexDirection: 'row',
     gap: spacing.sm,
     justifyContent: 'center',
-    minHeight: 50,
+    minHeight: 64,
     paddingHorizontal: spacing.lg,
   },
   finishButtonDisabled: {
@@ -464,7 +460,7 @@ const styles = StyleSheet.create({
   finishButtonText: {
     color: colors.surface,
     fontFamily: fonts.heading,
-    fontSize: 14,
+    fontSize: 18,
   },
   header: {
     alignItems: 'flex-start',
@@ -487,17 +483,17 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: colors.emeraldSoft,
     borderColor: `${colors.primary}25`,
-    borderRadius: radii.pill,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     flexDirection: 'row',
     gap: spacing.xs,
-    minHeight: 38,
+    minHeight: 60,
     paddingHorizontal: spacing.md,
   },
   linkButtonText: {
     color: colors.primary,
     fontFamily: fonts.heading,
-    fontSize: 12,
+    fontSize: 16,
   },
   mainColumn: {
     flex: 1,
@@ -538,40 +534,40 @@ const styles = StyleSheet.create({
   modalPrimaryButton: {
     alignItems: 'center',
     backgroundColor: colors.primary,
-    borderRadius: radii.pill,
+    borderRadius: radii.sm,
     flex: 1,
     justifyContent: 'center',
-    minHeight: 44,
+    minHeight: 60,
     minWidth: 150,
     paddingHorizontal: spacing.md,
   },
   modalPrimaryText: {
     color: colors.surface,
     fontFamily: fonts.heading,
-    fontSize: 13,
+    fontSize: 17,
   },
   modalSecondaryButton: {
     alignItems: 'center',
     backgroundColor: colors.emeraldSoft,
     borderColor: `${colors.primary}25`,
-    borderRadius: radii.pill,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     flex: 1,
     justifyContent: 'center',
-    minHeight: 44,
+    minHeight: 60,
     minWidth: 130,
     paddingHorizontal: spacing.md,
   },
   modalSecondaryText: {
     color: colors.primary,
     fontFamily: fonts.heading,
-    fontSize: 13,
+    fontSize: 17,
   },
   modalText: {
     color: colors.textSecondary,
     fontFamily: fonts.body,
-    fontSize: 14,
-    lineHeight: 21,
+    fontSize: 16,
+    lineHeight: 23,
     textAlign: 'center',
   },
   modalTitle: {
@@ -586,17 +582,17 @@ const styles = StyleSheet.create({
   primaryButton: {
     alignItems: 'center',
     backgroundColor: colors.primary,
-    borderRadius: radii.pill,
+    borderRadius: radii.sm,
     flexDirection: 'row',
     gap: spacing.sm,
     justifyContent: 'center',
-    minHeight: 46,
+    minHeight: 60,
     paddingHorizontal: spacing.lg,
   },
   primaryButtonText: {
     color: colors.surface,
     fontFamily: fonts.heading,
-    fontSize: 13,
+    fontSize: 17,
   },
   protocolBox: {
     backgroundColor: colors.cream,
@@ -614,8 +610,8 @@ const styles = StyleSheet.create({
   safeNote: {
     color: colors.textSecondary,
     fontFamily: fonts.body,
-    fontSize: 12,
-    lineHeight: 18,
+    fontSize: 16,
+    lineHeight: 22,
     textAlign: 'center',
   },
   sectionHeader: {
@@ -627,43 +623,43 @@ const styles = StyleSheet.create({
   sectionSubtitle: {
     color: colors.textSecondary,
     fontFamily: fonts.body,
-    fontSize: 13,
-    lineHeight: 19,
+    fontSize: 16,
+    lineHeight: 22,
     marginTop: 2,
   },
   sectionTitle: {
     color: colors.textPrimary,
     fontFamily: fonts.heading,
-    fontSize: 20,
+    fontSize: 22,
   },
   secureBadge: {
     alignItems: 'center',
     backgroundColor: colors.emeraldSoft,
     borderColor: `${colors.primary}25`,
-    borderRadius: radii.pill,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     flexDirection: 'row',
     gap: spacing.sm,
-    minHeight: 42,
+    minHeight: 54,
     paddingHorizontal: spacing.md,
   },
   secureText: {
     color: colors.primary,
     fontFamily: fonts.heading,
-    fontSize: 12,
+    fontSize: 16,
   },
   subtitle: {
     color: colors.textSecondary,
     fontFamily: fonts.body,
-    fontSize: 14,
-    lineHeight: 20,
+    fontSize: 16,
+    lineHeight: 23,
     maxWidth: 760,
   },
   summaryCard: {
     backgroundColor: colors.surface,
     borderColor: colors.border,
-    borderRadius: radii.md,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     gap: spacing.md,
     padding: spacing.lg,
     ...shadows.card,
@@ -684,13 +680,13 @@ const styles = StyleSheet.create({
     color: colors.textSecondary,
     flex: 1,
     fontFamily: fonts.body,
-    fontSize: 13,
+    fontSize: 16,
     lineHeight: 18,
   },
   summaryLineValue: {
     color: colors.textPrimary,
     fontFamily: fonts.heading,
-    fontSize: 13,
+    fontSize: 16,
     textAlign: 'right',
   },
   summaryLines: {
@@ -699,7 +695,7 @@ const styles = StyleSheet.create({
   summaryTitle: {
     color: colors.textPrimary,
     fontFamily: fonts.heading,
-    fontSize: 18,
+    fontSize: 22,
   },
   title: {
     color: colors.textPrimary,
@@ -718,7 +714,7 @@ const styles = StyleSheet.create({
   totalLabel: {
     color: colors.primary,
     fontFamily: fonts.body,
-    fontSize: 12,
+    fontSize: 16,
   },
   totalValue: {
     color: colors.primary,

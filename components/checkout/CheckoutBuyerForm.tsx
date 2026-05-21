@@ -23,7 +23,7 @@ export function CheckoutBuyerForm({ data, errors, onChange }: CheckoutBuyerFormP
     <View style={styles.card}>
       <View>
         <Text style={styles.sectionTitle}>Dados do comprador</Text>
-        <Text style={styles.sectionSubtitle}>Esses dados ficam apenas nesta simulação local de checkout.</Text>
+        <Text style={styles.sectionSubtitle}>Informe os dados para nossa equipe entrar em contato.</Text>
       </View>
 
       <Field
@@ -129,16 +129,16 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.surface,
     borderColor: colors.border,
-    borderRadius: radii.md,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     gap: spacing.md,
     padding: spacing.lg,
   },
   errorText: {
     color: colors.danger,
     fontFamily: fonts.heading,
-    fontSize: 11,
-    lineHeight: 16,
+    fontSize: 16,
+    lineHeight: 22,
   },
   field: {
     flex: 1,
@@ -148,12 +148,12 @@ const styles = StyleSheet.create({
   input: {
     backgroundColor: colors.cream,
     borderColor: colors.border,
-    borderRadius: radii.md,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     color: colors.textPrimary,
     fontFamily: fonts.body,
-    fontSize: 14,
-    minHeight: 48,
+    fontSize: 16,
+    minHeight: 60,
     paddingHorizontal: spacing.md,
   },
   inputError: {
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
   label: {
     color: colors.textPrimary,
     fontFamily: fonts.heading,
-    fontSize: 12,
+    fontSize: 16,
   },
   row: {
     flexDirection: 'row',
@@ -172,13 +172,13 @@ const styles = StyleSheet.create({
   sectionSubtitle: {
     color: colors.textSecondary,
     fontFamily: fonts.body,
-    fontSize: 13,
-    lineHeight: 19,
+    fontSize: 16,
+    lineHeight: 22,
     marginTop: 3,
   },
   sectionTitle: {
     color: colors.textPrimary,
     fontFamily: fonts.heading,
-    fontSize: 18,
+    fontSize: 22,
   },
 });

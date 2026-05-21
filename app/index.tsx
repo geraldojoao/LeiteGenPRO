@@ -27,9 +27,9 @@ interface LoginMetric {
 }
 
 const loginMetrics: LoginMetric[] = [
-  { icon: 'dna', label: 'avaliacoes genomicas', value: '1.284' },
-  { icon: 'cloud-check-outline', label: 'catalogo offline', value: '98%' },
-  { icon: 'storefront-outline', label: 'centrais parceiras', value: '12' },
+  { icon: 'cow', label: 'animais no rebanho', value: '128' },
+  { icon: 'water-plus', label: 'touros para leite', value: '24' },
+  { icon: 'heart-outline', label: 'favoritos rápidos', value: '5' },
 ];
 
 function isValidEmail(value: string): boolean {
@@ -100,7 +100,7 @@ export default function LoginScreen(): JSX.Element {
   return (
     <SafeAreaView style={styles.safeArea}>
       <LinearGradient
-        colors={['#fef9ee', '#f7ead2', '#eef7ef']}
+        colors={['#ffffff', '#f4fff7', '#ecfdf5']}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={StyleSheet.absoluteFill}
@@ -128,16 +128,14 @@ export default function LoginScreen(): JSX.Element {
                 </View>
                 <View style={styles.brandTextWrap}>
                   <Text style={styles.brandName}>LeiteGen Pro</Text>
-                  <Text style={styles.brandSubtitle}>Mercado genetico leiteiro brasileiro</Text>
+                <Text style={styles.brandSubtitle}>Touros leiteiros fáceis de escolher</Text>
                 </View>
               </View>
 
               <View style={styles.headingBlock}>
-                <Text style={styles.eyebrow}>Acesso seguro</Text>
-                <Text style={styles.title}>Entre na sua operacao genetica</Text>
-                <Text style={styles.subtitle}>
-                  Acompanhe touros, matrizes, ROI e recomendacoes de acasalamento em um ambiente premium.
-                </Text>
+                <Text style={styles.eyebrow}>Acesso da fazenda</Text>
+                <Text style={styles.title}>Escolha touros melhores sem complicação</Text>
+                <Text style={styles.subtitle}>Veja recomendações simples para aumentar leite e melhorar o rebanho.</Text>
               </View>
 
               <View style={styles.form}>
@@ -210,7 +208,7 @@ export default function LoginScreen(): JSX.Element {
                     (pressed || isSubmitting) && styles.primaryButtonPressed,
                   ]}
                 >
-                  <Text style={styles.primaryButtonText}>{isSubmitting ? 'Validando acesso...' : 'Entrar'}</Text>
+                  <Text style={styles.primaryButtonText}>{isSubmitting ? 'Entrando...' : 'Entrar'}</Text>
                   <MaterialCommunityIcons name="arrow-right" size={20} color={colors.surface} />
                 </Pressable>
 
@@ -221,7 +219,7 @@ export default function LoginScreen(): JSX.Element {
                   style={({ pressed }) => [styles.demoButton, pressed && styles.demoButtonPressed]}
                 >
                   <MaterialCommunityIcons name="shield-check-outline" size={18} color={colors.primary} />
-                  <Text style={styles.demoButtonText}>Acessar demo profissional</Text>
+                  <Text style={styles.demoButtonText}>Entrar como produtor</Text>
                 </Pressable>
               </View>
             </View>
@@ -232,8 +230,8 @@ export default function LoginScreen(): JSX.Element {
                   <MaterialCommunityIcons name="chart-timeline-variant" size={25} color={colors.primary} />
                 </View>
                 <View style={styles.insightTitleWrap}>
-                  <Text style={styles.insightTitle}>Inteligencia de selecao</Text>
-                  <Text style={styles.insightSubtitle}>Dados, risco e retorno em uma unica rotina.</Text>
+                  <Text style={styles.insightTitle}>Pronto para o campo</Text>
+                  <Text style={styles.insightSubtitle}>Poucos passos, textos grandes e decisões rápidas.</Text>
                 </View>
               </View>
 
@@ -249,13 +247,13 @@ export default function LoginScreen(): JSX.Element {
 
               <View style={styles.signalCard}>
                 <View style={styles.signalTopRow}>
-                  <Text style={styles.signalLabel}>Indice genetico previsto</Text>
+                  <Text style={styles.signalLabel}>Qualidade genética prevista</Text>
                   <Text style={styles.signalValue}>+14,8%</Text>
                 </View>
                 <View style={styles.signalTrack}>
                   <View style={styles.signalFill} />
                 </View>
-                <Text style={styles.signalCaption}>Sessao pronta para operar mesmo com conectividade instavel.</Text>
+                <Text style={styles.signalCaption}>Funciona com dados locais mesmo quando o sinal está fraco.</Text>
               </View>
             </View>
           </View>
@@ -280,8 +278,8 @@ const styles = StyleSheet.create({
   brandSubtitle: {
     color: colors.textSecondary,
     fontFamily: fonts.body,
-    fontSize: 13,
-    lineHeight: 19,
+    fontSize: 16,
+    lineHeight: 22,
   },
   brandTextWrap: {
     flex: 1,
@@ -290,13 +288,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'center',
     borderColor: `${colors.primary}24`,
-    borderRadius: radii.pill,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     flexDirection: 'row',
     gap: spacing.sm,
     justifyContent: 'center',
     paddingHorizontal: spacing.lg,
-    paddingVertical: spacing.md,
+    minHeight: 60,
   },
   demoButtonPressed: {
     backgroundColor: colors.emeraldSoft,
@@ -304,14 +302,14 @@ const styles = StyleSheet.create({
   demoButtonText: {
     color: colors.primary,
     fontFamily: fonts.heading,
-    fontSize: 13,
+    fontSize: 17,
   },
   errorBox: {
     alignItems: 'center',
     backgroundColor: colors.redSoft,
     borderColor: '#fecaca',
-    borderRadius: radii.md,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     flexDirection: 'row',
     gap: spacing.sm,
     padding: spacing.md,
@@ -320,13 +318,13 @@ const styles = StyleSheet.create({
     color: colors.danger,
     flex: 1,
     fontFamily: fonts.heading,
-    fontSize: 12,
-    lineHeight: 18,
+    fontSize: 16,
+    lineHeight: 22,
   },
   eyebrow: {
-    color: colors.warning,
+    color: colors.primary,
     fontFamily: fonts.heading,
-    fontSize: 12,
+    fontSize: 16,
     letterSpacing: 0,
     textTransform: 'uppercase',
   },
@@ -339,8 +337,8 @@ const styles = StyleSheet.create({
   formPanel: {
     backgroundColor: 'rgba(255,255,255,0.92)',
     borderColor: 'rgba(234,223,202,0.92)',
-    borderRadius: radii.xl,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     gap: spacing.xl,
     padding: spacing.xl,
     ...shadows.card,
@@ -356,24 +354,24 @@ const styles = StyleSheet.create({
     color: colors.textPrimary,
     flex: 1,
     fontFamily: fonts.body,
-    fontSize: 15,
+    fontSize: 16,
     minHeight: 24,
   },
   inputWrap: {
     alignItems: 'center',
     backgroundColor: colors.surface,
     borderColor: colors.border,
-    borderRadius: radii.md,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     flexDirection: 'row',
     gap: spacing.sm,
-    minHeight: 54,
+    minHeight: 60,
     paddingHorizontal: spacing.md,
   },
   insightCaption: {
     color: '#d8eadc',
     fontFamily: fonts.body,
-    fontSize: 12,
+    fontSize: 16,
   },
   insightHeader: {
     alignItems: 'center',
@@ -383,14 +381,14 @@ const styles = StyleSheet.create({
   insightIcon: {
     alignItems: 'center',
     backgroundColor: colors.surface,
-    borderRadius: radii.md,
+    borderRadius: radii.sm,
     height: 52,
     justifyContent: 'center',
     width: 52,
   },
   insightPanel: {
     backgroundColor: colors.primary,
-    borderRadius: radii.xl,
+    borderRadius: radii.sm,
     gap: spacing.xl,
     justifyContent: 'space-between',
     minHeight: 520,
@@ -404,8 +402,8 @@ const styles = StyleSheet.create({
   insightSubtitle: {
     color: '#d8eadc',
     fontFamily: fonts.body,
-    fontSize: 13,
-    lineHeight: 19,
+    fontSize: 16,
+    lineHeight: 22,
   },
   insightTitle: {
     color: colors.surface,
@@ -421,7 +419,7 @@ const styles = StyleSheet.create({
   label: {
     color: colors.textPrimary,
     fontFamily: fonts.heading,
-    fontSize: 13,
+    fontSize: 16,
   },
   logo: {
     borderRadius: radii.pill,
@@ -430,8 +428,8 @@ const styles = StyleSheet.create({
   metricCard: {
     backgroundColor: 'rgba(255,255,255,0.1)',
     borderColor: 'rgba(255,255,255,0.16)',
-    borderRadius: radii.md,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     flex: 1,
     gap: spacing.xs,
     minWidth: 112,
@@ -440,8 +438,8 @@ const styles = StyleSheet.create({
   metricLabel: {
     color: '#d8eadc',
     fontFamily: fonts.body,
-    fontSize: 11,
-    lineHeight: 16,
+    fontSize: 16,
+    lineHeight: 22,
   },
   metricValue: {
     color: colors.surface,
@@ -465,11 +463,11 @@ const styles = StyleSheet.create({
   primaryButton: {
     alignItems: 'center',
     backgroundColor: colors.primary,
-    borderRadius: radii.md,
+    borderRadius: radii.sm,
     flexDirection: 'row',
     gap: spacing.sm,
     justifyContent: 'center',
-    minHeight: 54,
+    minHeight: 60,
     paddingHorizontal: spacing.lg,
   },
   primaryButtonPressed: {
@@ -478,7 +476,7 @@ const styles = StyleSheet.create({
   primaryButtonText: {
     color: colors.surface,
     fontFamily: fonts.heading,
-    fontSize: 15,
+    fontSize: 18,
   },
   safeArea: {
     backgroundColor: colors.background,
@@ -505,14 +503,14 @@ const styles = StyleSheet.create({
   signalCaption: {
     color: '#d8eadc',
     fontFamily: fonts.body,
-    fontSize: 12,
-    lineHeight: 18,
+    fontSize: 16,
+    lineHeight: 22,
   },
   signalCard: {
     backgroundColor: 'rgba(255,255,255,0.1)',
     borderColor: 'rgba(255,255,255,0.16)',
-    borderRadius: radii.lg,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     gap: spacing.md,
     padding: spacing.lg,
   },
@@ -525,7 +523,7 @@ const styles = StyleSheet.create({
   signalLabel: {
     color: '#d8eadc',
     fontFamily: fonts.body,
-    fontSize: 12,
+    fontSize: 16,
   },
   signalTopRow: {
     alignItems: 'center',
@@ -547,8 +545,8 @@ const styles = StyleSheet.create({
   subtitle: {
     color: colors.textSecondary,
     fontFamily: fonts.body,
-    fontSize: 14,
-    lineHeight: 21,
+    fontSize: 16,
+    lineHeight: 23,
   },
   textureBand: {
     backgroundColor: 'rgba(138, 90, 68, 0.08)',

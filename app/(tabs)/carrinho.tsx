@@ -32,11 +32,9 @@ export default function CarrinhoScreen(): JSX.Element {
       >
         <View style={[styles.header, responsive.isMobile && styles.headerStack]}>
           <View style={styles.headingText}>
-            <Text style={styles.eyebrow}>Carrinho</Text>
-            <Text style={styles.title}>Touros favoritados</Text>
-            <Text style={styles.subtitle}>
-              Revise os reprodutores salvos antes de abrir os detalhes técnicos ou simular o investimento.
-            </Text>
+            <Text style={styles.eyebrow}>Favoritos</Text>
+            <Text style={styles.title}>Touros escolhidos</Text>
+            <Text style={styles.subtitle}>Use como um carrinho simples antes de finalizar o pedido.</Text>
           </View>
           <View style={styles.summaryCard}>
             <View style={styles.summaryIcon}>
@@ -44,7 +42,7 @@ export default function CarrinhoScreen(): JSX.Element {
             </View>
             <View>
               <Text style={styles.summaryValue}>{total}</Text>
-              <Text style={styles.summaryLabel}>{total === 1 ? 'touro salvo' : 'touros salvos'}</Text>
+              <Text style={styles.summaryLabel}>{total === 1 ? 'touro escolhido' : 'touros escolhidos'}</Text>
             </View>
           </View>
         </View>
@@ -53,7 +51,7 @@ export default function CarrinhoScreen(): JSX.Element {
           <>
             <View style={[styles.totalPanel, responsive.isNarrow && styles.totalPanelStack]}>
               <View>
-                <Text style={styles.totalLabel}>Valor estimado por dose</Text>
+                <Text style={styles.totalLabel}>Soma das doses escolhidas</Text>
                 <Text style={styles.totalValue}>{formatCurrency(totalEstimado)}</Text>
               </View>
               <View style={[styles.totalActions, responsive.isNarrow && styles.totalActionsStack]}>
@@ -63,15 +61,15 @@ export default function CarrinhoScreen(): JSX.Element {
                   style={({ pressed }) => [styles.secondaryButton, pressed && styles.pressed]}
                 >
                   <MaterialCommunityIcons name="magnify" size={18} color={colors.primary} />
-                  <Text style={styles.secondaryText}>Buscar mais</Text>
+                  <Text style={styles.secondaryText}>Ver mais touros</Text>
                 </Pressable>
                 <Pressable
-                  accessibilityLabel="Ir para pagamento simulado"
+                  accessibilityLabel="Finalizar pedido"
                   onPress={() => router.push('/checkout' as never)}
                   style={({ pressed }) => [styles.checkoutButton, pressed && styles.pressed]}
                 >
-                  <MaterialCommunityIcons name="credit-card-check-outline" size={18} color={colors.surface} />
-                  <Text style={styles.checkoutText}>Finalizar compra</Text>
+                  <MaterialCommunityIcons name="check-circle-outline" size={20} color={colors.surface} />
+                  <Text style={styles.checkoutText}>Finalizar pedido</Text>
                 </Pressable>
               </View>
             </View>
@@ -86,16 +84,16 @@ export default function CarrinhoScreen(): JSX.Element {
           <View style={styles.emptyWrap}>
             <EmptyState
               icon="cart-outline"
-              title="Seu carrinho está vazio"
-              message="Marque touros como favoritos na busca ou no marketplace para montar uma lista rápida de comparação."
+              title="Nenhum touro escolhido"
+              message="Toque no coração de um touro para montar sua lista."
             />
             <Pressable
-              accessibilityLabel="Explorar catálogo de touros"
+              accessibilityLabel="Ver touros recomendados"
               onPress={() => router.push('/busca')}
               style={({ pressed }) => [styles.primaryButton, pressed && styles.pressed]}
             >
               <MaterialCommunityIcons name="magnify" size={18} color={colors.surface} />
-              <Text style={styles.primaryText}>Explorar touros</Text>
+              <Text style={styles.primaryText}>Ver touros recomendados</Text>
             </Pressable>
           </View>
         )}
@@ -113,26 +111,26 @@ const styles = StyleSheet.create({
   checkoutButton: {
     alignItems: 'center',
     backgroundColor: colors.primary,
-    borderRadius: radii.pill,
+    borderRadius: radii.sm,
     flexDirection: 'row',
     gap: spacing.sm,
     justifyContent: 'center',
-    minHeight: 42,
-    paddingHorizontal: spacing.md,
+    minHeight: 60,
+    paddingHorizontal: spacing.lg,
   },
   checkoutText: {
     color: colors.surface,
     fontFamily: fonts.heading,
-    fontSize: 12,
+    fontSize: 17,
   },
   emptyWrap: {
     alignItems: 'center',
     gap: spacing.md,
   },
   eyebrow: {
-    color: colors.secondary,
+    color: colors.primary,
     fontFamily: fonts.heading,
-    fontSize: 12,
+    fontSize: 16,
     textTransform: 'uppercase',
   },
   header: {
@@ -162,17 +160,17 @@ const styles = StyleSheet.create({
   primaryButton: {
     alignItems: 'center',
     backgroundColor: colors.primary,
-    borderRadius: radii.pill,
+    borderRadius: radii.sm,
     flexDirection: 'row',
     gap: spacing.sm,
     justifyContent: 'center',
-    minHeight: 46,
+    minHeight: 60,
     paddingHorizontal: spacing.lg,
   },
   primaryText: {
     color: colors.surface,
     fontFamily: fonts.heading,
-    fontSize: 13,
+    fontSize: 17,
   },
   safeArea: {
     backgroundColor: colors.background,
@@ -182,32 +180,32 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: colors.emeraldSoft,
     borderColor: `${colors.primary}25`,
-    borderRadius: radii.pill,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     flexDirection: 'row',
     gap: spacing.sm,
     justifyContent: 'center',
-    minHeight: 42,
-    paddingHorizontal: spacing.md,
+    minHeight: 60,
+    paddingHorizontal: spacing.lg,
   },
   secondaryText: {
     color: colors.primary,
     fontFamily: fonts.heading,
-    fontSize: 12,
+    fontSize: 17,
   },
   subtitle: {
     color: colors.textSecondary,
     fontFamily: fonts.body,
-    fontSize: 14,
-    lineHeight: 20,
+    fontSize: 16,
+    lineHeight: 23,
     maxWidth: 680,
   },
   summaryCard: {
     alignItems: 'center',
     backgroundColor: colors.surface,
     borderColor: colors.border,
-    borderRadius: radii.md,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     flexDirection: 'row',
     gap: spacing.md,
     minWidth: 166,
@@ -225,7 +223,7 @@ const styles = StyleSheet.create({
   summaryLabel: {
     color: colors.textSecondary,
     fontFamily: fonts.body,
-    fontSize: 12,
+    fontSize: 16,
     marginTop: 2,
   },
   summaryValue: {
@@ -243,7 +241,7 @@ const styles = StyleSheet.create({
   totalLabel: {
     color: colors.textSecondary,
     fontFamily: fonts.body,
-    fontSize: 12,
+    fontSize: 16,
   },
   totalActions: {
     alignItems: 'center',
@@ -260,8 +258,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: colors.surface,
     borderColor: colors.border,
-    borderRadius: radii.md,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     flexDirection: 'row',
     gap: spacing.md,
     justifyContent: 'space-between',
@@ -275,7 +273,7 @@ const styles = StyleSheet.create({
   totalValue: {
     color: colors.primary,
     fontFamily: fonts.heading,
-    fontSize: 20,
+    fontSize: 24,
     marginTop: 2,
   },
 });

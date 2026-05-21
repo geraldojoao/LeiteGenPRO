@@ -26,28 +26,16 @@ type FieldAlert = {
 
 const quickActions: QuickAction[] = [
   {
-    title: 'Registrar animal',
-    subtitle: 'Adicionar vaca ao rebanho',
-    icon: 'plus',
-    route: '/plantel?acao=registrar',
-  },
-  {
     title: 'Ver rebanho',
     subtitle: 'Lista simples dos animais',
     icon: 'users',
     route: '/plantel?filtro=todos',
   },
   {
-    title: 'Ver recomendacoes',
-    subtitle: 'Escolher touro com calma',
+    title: 'Ver touros',
+    subtitle: 'Touros bons para leite',
     icon: 'check-circle-2',
     route: '/busca',
-  },
-  {
-    title: 'Catalogo',
-    subtitle: 'Touros disponiveis',
-    icon: 'store',
-    route: '/marketplace',
   },
 ];
 
@@ -69,13 +57,13 @@ export default function HomeScreen(): JSX.Element {
   const useTwoColumns = contentWidth >= 560;
   const quickCardWidth = useTwoColumns ? (contentWidth - spacing.md) / 2 : '100%';
   const summaryCardWidth = contentWidth >= 680 ? (contentWidth - spacing.md * 2) / 3 : '100%';
-  const primaryLabel = alerta.count > 0 ? 'Ver animais com alerta' : 'Registrar animal';
+  const primaryLabel = 'Ver touros recomendados';
   const alertCardStyle =
     alerta.tone === 'danger' ? styles.dangerAlert : alerta.tone === 'warning' ? styles.warningAlert : styles.successAlert;
   const alertIconStyle =
     alerta.tone === 'danger' ? styles.dangerIcon : alerta.tone === 'warning' ? styles.warningIcon : styles.successIcon;
   const alertColor = alerta.tone === 'danger' ? colors.danger : alerta.tone === 'warning' ? colors.warning : colors.success;
-  const mainRebanhoRoute = alerta.count > 0 ? '/plantel?filtro=alertas' : '/plantel?acao=registrar';
+  const mainRebanhoRoute = alerta.count > 0 ? '/plantel?filtro=alertas' : '/plantel?filtro=todos';
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -93,14 +81,24 @@ export default function HomeScreen(): JSX.Element {
               <AppIcon name="droplets" size={30} color={colors.surface} strokeWidth={2.4} />
             </View>
             <View style={styles.signalPill}>
-              <Text style={styles.signalPillText}>Pronto no campo</Text>
+              <Text style={styles.signalPillText}>Simples e rápido</Text>
             </View>
           </View>
 
-          <Text style={styles.greeting}>Bom dia, Joao</Text>
+          <Text style={styles.greeting}>Bom dia, João</Text>
           <Text style={styles.heroTitle}>Fazenda Boa Vista</Text>
-          <Text style={styles.heroSubtitle}>Resumo simples para decidir rapido, mesmo com pouco sinal.</Text>
+          <Text style={styles.heroSubtitle}>Escolha touros que ajudam a aumentar o leite e melhorar o rebanho.</Text>
         </View>
+
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={primaryLabel}
+          onPress={() => router.push('/busca' as never)}
+          style={({ pressed }) => [styles.primaryButton, pressed && styles.primaryButtonPressed]}
+        >
+          <AppIcon name="search" size={26} color={colors.surface} strokeWidth={2.6} />
+          <Text style={styles.primaryButtonText}>{primaryLabel}</Text>
+        </Pressable>
 
         <Pressable
           accessibilityRole="button"
@@ -123,18 +121,8 @@ export default function HomeScreen(): JSX.Element {
           <AppIcon name="chevron-right" size={24} color={colors.textPrimary} />
         </Pressable>
 
-        <Pressable
-          accessibilityRole="button"
-          accessibilityLabel={primaryLabel}
-          onPress={() => router.push(mainRebanhoRoute as never)}
-          style={({ pressed }) => [styles.primaryButton, pressed && styles.primaryButtonPressed]}
-        >
-          <AppIcon name={alerta.count > 0 ? 'users' : 'plus'} size={24} color={colors.surface} strokeWidth={2.6} />
-          <Text style={styles.primaryButtonText}>{primaryLabel}</Text>
-        </Pressable>
-
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>Acesso rapido</Text>
+          <Text style={styles.sectionTitle}>Acesso rápido</Text>
           <View style={styles.quickGrid}>
             {quickActions.map((action) => (
               <Pressable
@@ -189,7 +177,7 @@ export default function HomeScreen(): JSX.Element {
           <View style={styles.simpleInfoTextBlock}>
             <Text style={styles.simpleInfoTitle}>{formatNumber(producaoHoje, 1)} litros hoje</Text>
             <Text style={styles.simpleInfoText}>
-              {vacasEmLeite.length} em leite, {vacasSecas.length} seca{vacasSecas.length === 1 ? '' : 's'} e {catalogo.length} touros no catalogo.
+              {vacasEmLeite.length} em leite, {vacasSecas.length} seca{vacasSecas.length === 1 ? '' : 's'} e {catalogo.length} touros no catálogo.
             </Text>
           </View>
           <AppIcon name="bar-chart-3" size={30} color={colors.primary} strokeWidth={2.4} />

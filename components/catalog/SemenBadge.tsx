@@ -18,6 +18,7 @@ const semenColors: Record<TipoSemen, string> = {
 export function SemenBadge({ tipo, alerta = 'OK', compact = false }: SemenBadgeProps): JSX.Element {
   const isAlert = alerta !== 'OK';
   const color = isAlert ? colors.danger : semenColors[tipo];
+  const label = tipo === 'Sexado Fêmea' ? 'Mais bezerras' : tipo === 'Sexado Macho' ? 'Mais bezerros' : 'Sêmen comum';
 
   return (
     <View style={[styles.badge, { backgroundColor: `${color}14`, borderColor: `${color}50` }]}>
@@ -34,7 +35,7 @@ export function SemenBadge({ tipo, alerta = 'OK', compact = false }: SemenBadgeP
         size={compact ? 13 : 15}
         color={color}
       />
-      <Text style={[styles.text, { color }, compact && styles.compactText]}>{isAlert ? 'Alerta IATF' : tipo}</Text>
+      <Text style={[styles.text, { color }, compact && styles.compactText]}>{isAlert ? 'Atenção no manejo' : label}</Text>
     </View>
   );
 }
@@ -52,9 +53,9 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: fonts.heading,
-    fontSize: 11,
+    fontSize: 16,
   },
   compactText: {
-    fontSize: 10,
+    fontSize: 16,
   },
 });

@@ -34,7 +34,7 @@ export function CheckoutTouroItem({
               {touro.nome}
             </Text>
             <Text numberOfLines={1} style={styles.registry}>
-              Código {touro.registro}
+              Touro selecionado
             </Text>
           </View>
           <View style={styles.raceBadge}>
@@ -46,18 +46,18 @@ export function CheckoutTouroItem({
 
         <View style={styles.metaRow}>
           <View>
-            <Text style={styles.metaLabel}>Valor individual</Text>
+            <Text style={styles.metaLabel}>Valor da dose</Text>
             <Text style={styles.price}>{formatCurrency(touro.precoPorDose)}/dose</Text>
           </View>
           <View>
-            <Text style={styles.metaLabel}>Total do item</Text>
+            <Text style={styles.metaLabel}>Total deste touro</Text>
             <Text style={styles.itemTotal}>{formatCurrency(itemTotal)}</Text>
           </View>
         </View>
 
         <View style={[styles.footer, shouldStack && styles.footerStack]}>
           <View style={styles.quantityWrap}>
-            <Text style={styles.quantityLabel}>Quantidade</Text>
+            <Text style={styles.quantityLabel}>Doses</Text>
             <View style={styles.stepper}>
               <Pressable
                 accessibilityLabel={`Diminuir quantidade de ${touro.nome}`}
@@ -85,12 +85,12 @@ export function CheckoutTouroItem({
           </View>
 
           <Pressable
-            accessibilityLabel={`Remover ${touro.nome} do checkout`}
+            accessibilityLabel={`Remover ${touro.nome} do pedido`}
             onPress={onRemove}
             style={({ pressed }) => [styles.removeButton, shouldStack && styles.fullButton, pressed && styles.pressed]}
           >
             <MaterialCommunityIcons name="trash-can-outline" size={18} color={colors.danger} />
-            <Text style={styles.removeText}>Remover</Text>
+            <Text style={styles.removeText}>Tirar</Text>
           </Pressable>
         </View>
       </View>
@@ -102,8 +102,8 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.surface,
     borderColor: colors.border,
-    borderRadius: radii.md,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     flexDirection: 'row',
     gap: spacing.md,
     padding: spacing.md,
@@ -149,13 +149,13 @@ const styles = StyleSheet.create({
   itemTotal: {
     color: colors.primary,
     fontFamily: fonts.heading,
-    fontSize: 14,
+    fontSize: 18,
     marginTop: 3,
   },
   metaLabel: {
     color: colors.textSecondary,
     fontFamily: fonts.body,
-    fontSize: 11,
+    fontSize: 16,
   },
   metaRow: {
     flexDirection: 'row',
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
   name: {
     color: colors.textPrimary,
     fontFamily: fonts.heading,
-    fontSize: 18,
+    fontSize: 21,
   },
   pressed: {
     opacity: 0.78,
@@ -173,18 +173,18 @@ const styles = StyleSheet.create({
   price: {
     color: colors.secondary,
     fontFamily: fonts.heading,
-    fontSize: 14,
+    fontSize: 18,
     marginTop: 3,
   },
   quantityLabel: {
     color: colors.textSecondary,
     fontFamily: fonts.body,
-    fontSize: 11,
+    fontSize: 16,
   },
   quantityValue: {
     color: colors.textPrimary,
     fontFamily: fonts.heading,
-    fontSize: 14,
+    fontSize: 18,
     minWidth: 26,
     textAlign: 'center',
   },
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
   },
   raceBadge: {
     backgroundColor: colors.amberSoft,
-    borderRadius: radii.pill,
+    borderRadius: radii.sm,
     maxWidth: 132,
     paddingHorizontal: spacing.sm,
     paddingVertical: 6,
@@ -201,30 +201,30 @@ const styles = StyleSheet.create({
   raceText: {
     color: colors.warning,
     fontFamily: fonts.heading,
-    fontSize: 10,
+    fontSize: 16,
   },
   registry: {
     color: colors.textSecondary,
     fontFamily: fonts.body,
-    fontSize: 12,
+    fontSize: 16,
     marginTop: 3,
   },
   removeButton: {
     alignItems: 'center',
     backgroundColor: colors.redSoft,
     borderColor: `${colors.danger}30`,
-    borderRadius: radii.pill,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     flexDirection: 'row',
     gap: spacing.xs,
     justifyContent: 'center',
-    minHeight: 40,
-    paddingHorizontal: spacing.md,
+    minHeight: 60,
+    paddingHorizontal: spacing.lg,
   },
   removeText: {
     color: colors.danger,
     fontFamily: fonts.heading,
-    fontSize: 12,
+    fontSize: 17,
   },
   stepper: {
     alignItems: 'center',
@@ -237,9 +237,9 @@ const styles = StyleSheet.create({
     borderColor: `${colors.primary}24`,
     borderRadius: radii.pill,
     borderWidth: 1,
-    height: 34,
+    height: 44,
     justifyContent: 'center',
-    width: 34,
+    width: 44,
   },
   stepperButtonDisabled: {
     backgroundColor: colors.muted,

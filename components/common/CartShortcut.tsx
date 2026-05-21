@@ -14,7 +14,7 @@ export function CartShortcut({ compact = false }: CartShortcutProps): JSX.Elemen
 
   return (
     <Pressable
-      accessibilityLabel={`Abrir carrinho com ${total} ${total === 1 ? 'touro favoritado' : 'touros favoritados'}`}
+      accessibilityLabel={`Abrir favoritos com ${total} ${total === 1 ? 'touro selecionado' : 'touros selecionados'}`}
       onPress={() => router.push('/carrinho' as never)}
       style={({ pressed }) => [styles.button, compact && styles.compactButton, pressed && styles.pressed]}
     >
@@ -28,7 +28,7 @@ export function CartShortcut({ compact = false }: CartShortcutProps): JSX.Elemen
           </View>
         )}
       </View>
-      {!compact && <Text style={styles.label}>Carrinho</Text>}
+      {!compact && <Text style={styles.label}>Favoritos</Text>}
     </Pressable>
   );
 }
@@ -62,14 +62,15 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     flexDirection: 'row',
     gap: spacing.sm,
-    minHeight: 44,
+    minHeight: 60,
     paddingHorizontal: spacing.md,
     ...shadows.soft,
   },
   compactButton: {
     justifyContent: 'center',
     paddingHorizontal: 0,
-    width: 44,
+    minHeight: 48,
+    width: 48,
   },
   iconWrap: {
     alignItems: 'center',
@@ -80,7 +81,7 @@ const styles = StyleSheet.create({
   label: {
     color: colors.primary,
     fontFamily: fonts.heading,
-    fontSize: 12,
+    fontSize: 16,
   },
   pressed: {
     opacity: 0.82,

@@ -251,7 +251,7 @@ export default function PlantelScreen(): JSX.Element {
             <View style={styles.modalHeaderText}>
               <Text style={styles.modalEyebrow}>Cadastro</Text>
               <Text style={styles.modalTitle}>Nova matriz</Text>
-              <Text style={styles.modalSubtitle}>Dados básicos, produção, fenótipo e genealogia.</Text>
+                  <Text style={styles.modalSubtitle}>Dados simples do animal e produção de leite.</Text>
             </View>
             <Pressable
               accessibilityLabel="Fechar cadastro"
@@ -313,9 +313,9 @@ export default function PlantelScreen(): JSX.Element {
                       <StatusPill status={selectedMatriz.status} />
                       <Text style={styles.detailHeroMeta}>Atualizada em {formatDate(selectedMatriz.atualizadaEm)}</Text>
                     </View>
-                    <Text style={styles.detailHeroTitle}>Resumo produtivo e reprodutivo</Text>
+                    <Text style={styles.detailHeroTitle}>Resumo do animal</Text>
                     <Text style={styles.detailHeroText}>
-                      Use a ficha para conferir dados-chave antes de gerar recomendações de acasalamento.
+                      Confira os pontos principais antes de escolher touros.
                     </Text>
                   </View>
                 </View>
@@ -329,14 +329,14 @@ export default function PlantelScreen(): JSX.Element {
 
                   <DetailSection icon="calendar-clock" title="Cadastro">
                     <InfoRow label="Nascimento" value={formatDate(selectedMatriz.nascimento)} />
-                    <InfoRow label="Status" value={selectedMatriz.status} />
+                    <InfoRow label="Situação" value={selectedMatriz.status === 'Ativa' ? 'Em leite' : selectedMatriz.status === 'Seca' ? 'Seca' : 'Separar'} />
                     <InfoRow label="Raça" value={selectedMatriz.raca} />
                   </DetailSection>
 
-                  <DetailSection icon="activity" title="Fenótipo">
+                  <DetailSection icon="activity" title="Corpo do animal">
                     <InfoRow label="Estatura" value={`${selectedMatriz.fenotipo.estatura ?? '-'} / 9`} />
                     <InfoRow label="Profundidade corporal" value={`${selectedMatriz.fenotipo.profundidadeCorporal ?? '-'} / 9`} />
-                    <InfoRow label="Composto úbere" value={`${selectedMatriz.fenotipo.compostoUbere ?? '-'} / 9`} />
+                    <InfoRow label="Úbere" value={`${selectedMatriz.fenotipo.compostoUbere ?? '-'} / 9`} />
                     <InfoRow label="Pernas e pés" value={`${selectedMatriz.fenotipo.pernasEPes ?? '-'} / 9`} />
                   </DetailSection>
 
@@ -368,14 +368,14 @@ export default function PlantelScreen(): JSX.Element {
                   style={({ pressed }) => [styles.recommendButton, pressed && styles.pressed]}
                 >
                   <AppIcon color={colors.surface} name="dna" size={18} />
-                  <Text style={styles.recommendText}>Sugerir touros complementares</Text>
+                  <Text style={styles.recommendText}>Ver touros recomendados</Text>
                 </Pressable>
 
                 {showRecommendations && (
                   <View style={[styles.recommendations, responsive.isDesktop && styles.recommendationsGrid]}>
                     <View style={styles.recommendationsHeader}>
-                      <Text style={styles.sectionTitle}>Recomendações genéticas</Text>
-                      <Text style={styles.sectionSubtitle}>Top combinações para equilibrar produção, fenótipo e risco.</Text>
+                      <Text style={styles.sectionTitle}>Touros recomendados</Text>
+                      <Text style={styles.sectionSubtitle}>Boas opções para leite, corpo do animal e parto fácil.</Text>
                     </View>
 
                     {recommendations.length ? (
@@ -476,11 +476,12 @@ function SummaryCard({
 
 function StatusPill({ status }: { status: StatusMatriz }): JSX.Element {
   const theme = statusTheme[status];
+  const label = status === 'Ativa' ? 'Em leite' : status === 'Seca' ? 'Seca' : 'Separar';
 
   return (
     <View style={[styles.statusPill, { backgroundColor: theme.background, borderColor: `${theme.color}33` }]}>
       <View style={[styles.statusDot, { backgroundColor: theme.color }]} />
-      <Text style={[styles.statusPillText, { color: theme.color }]}>{status}</Text>
+      <Text style={[styles.statusPillText, { color: theme.color }]}>{label}</Text>
     </View>
   );
 }

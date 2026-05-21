@@ -16,9 +16,9 @@ import { OrdenacaoBusca, useFilterStore } from '@/store/filterStore';
 import { rankearTouros } from '@/utils/catalog';
 
 const sortingOptions: { key: OrdenacaoBusca; label: string; icon: keyof typeof MaterialCommunityIcons.glyphMap }[] = [
-  { key: 'score', label: 'Score', icon: 'chart-line' },
-  { key: 'pta', label: 'PTA', icon: 'water-plus' },
-  { key: 'preco', label: 'Preço', icon: 'cash' },
+  { key: 'score', label: 'Recomendados', icon: 'star-outline' },
+  { key: 'pta', label: 'Mais leite', icon: 'water-plus' },
+  { key: 'preco', label: 'Menor preço', icon: 'cash' },
 ];
 
 export default function BuscaScreen(): JSX.Element {
@@ -70,10 +70,9 @@ export default function BuscaScreen(): JSX.Element {
         ]}
       >
         <View>
-          <Text style={styles.eyebrow}>Busca Avançada</Text>
-          <Text style={[styles.title, responsive.isDesktop && styles.titleDesktop]}>
-            Seleção genética com ROI e clima
-          </Text>
+          <Text style={styles.eyebrow}>Touros</Text>
+          <Text style={[styles.title, responsive.isDesktop && styles.titleDesktop]}>Escolha um touro</Text>
+          <Text style={styles.subtitle}>Cards simples para decidir rápido no campo.</Text>
         </View>
         <View style={styles.headerActions}>
           <CartShortcut compact={responsive.isNarrow} />
@@ -92,15 +91,15 @@ export default function BuscaScreen(): JSX.Element {
         <View style={styles.searchBox}>
           <MaterialCommunityIcons name="magnify" size={20} color={colors.textSecondary} />
           <TextInput
-            accessibilityLabel="Buscar touro por nome, registro, raça ou central"
+            accessibilityLabel="Buscar touro por nome, raça ou central"
             onChangeText={setQuery}
-            placeholder="Nome, registro, raça ou central"
+            placeholder="Nome, raça ou central"
             placeholderTextColor={colors.textSecondary}
             style={styles.searchInput}
             value={query}
           />
         </View>
-        <Pressable accessibilityLabel="Abrir filtros avançados" onPress={openFilters} style={styles.filterButton}>
+        <Pressable accessibilityLabel="Abrir filtros" onPress={openFilters} style={styles.filterButton}>
           <MaterialCommunityIcons name="tune-variant" size={22} color={colors.surface} />
         </Pressable>
       </View>
@@ -135,7 +134,7 @@ export default function BuscaScreen(): JSX.Element {
         <Text style={styles.summaryText}>
           {resultados.length} {resultados.length === 1 ? 'touro encontrado' : 'touros encontrados'}
         </Text>
-        <Text style={styles.summarySubtext}>Ordenação por {sortingOptions.find((item) => item.key === ordenacao)?.label}</Text>
+        <Text style={styles.summarySubtext}>Primeiro aparecem os mais fáceis de escolher</Text>
       </View>
 
       <ScrollView
@@ -166,8 +165,8 @@ export default function BuscaScreen(): JSX.Element {
         ) : (
           <EmptyState
             icon="filter"
-            title="Nenhum touro passou pelos filtros"
-            message="Relaxe a acurácia mínima, amplie os biomas ou aumente o preço máximo para ver mais alternativas."
+            title="Nenhum touro encontrado"
+            message="Limpe os filtros ou procure por outro nome para ver mais touros."
           />
         )}
       </ScrollView>
@@ -179,18 +178,18 @@ export default function BuscaScreen(): JSX.Element {
 
 const styles = StyleSheet.create({
   eyebrow: {
-    color: colors.secondary,
+    color: colors.primary,
     fontFamily: fonts.heading,
-    fontSize: 12,
+    fontSize: 16,
     textTransform: 'uppercase',
   },
   filterButton: {
     alignItems: 'center',
     backgroundColor: colors.primary,
-    borderRadius: radii.md,
-    height: 50,
+    borderRadius: radii.sm,
+    height: 60,
     justifyContent: 'center',
-    width: 50,
+    width: 60,
     ...shadows.soft,
   },
   header: {
@@ -226,8 +225,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: colors.surface,
     borderColor: colors.border,
-    borderRadius: radii.md,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     flex: 1,
     flexDirection: 'row',
     gap: spacing.sm,
@@ -238,8 +237,8 @@ const styles = StyleSheet.create({
     color: colors.textPrimary,
     flex: 1,
     fontFamily: fonts.body,
-    fontSize: 14,
-    paddingVertical: 13,
+    fontSize: 16,
+    paddingVertical: 17,
   },
   searchRow: {
     flexDirection: 'row',
@@ -253,13 +252,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: colors.surface,
     borderColor: colors.border,
-    borderRadius: radii.pill,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     flex: 1,
     flexDirection: 'row',
     gap: spacing.xs,
     justifyContent: 'center',
-    paddingVertical: 10,
+    minHeight: 58,
+    paddingHorizontal: spacing.sm,
+    paddingVertical: 12,
   },
   sortButtonActive: {
     backgroundColor: colors.primary,
@@ -273,7 +274,7 @@ const styles = StyleSheet.create({
   sortText: {
     color: colors.primary,
     fontFamily: fonts.heading,
-    fontSize: 12,
+    fontSize: 15,
   },
   sortTextActive: {
     color: colors.surface,
@@ -281,28 +282,38 @@ const styles = StyleSheet.create({
   summary: {
     backgroundColor: colors.surface,
     borderColor: colors.border,
-    borderRadius: radii.md,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     marginTop: spacing.md,
-    padding: spacing.md,
+    padding: spacing.lg,
   },
   summarySubtext: {
     color: colors.textSecondary,
     fontFamily: fonts.body,
-    fontSize: 12,
+    fontSize: 16,
+    lineHeight: 22,
     marginTop: 2,
   },
   summaryText: {
     color: colors.textPrimary,
     fontFamily: fonts.heading,
-    fontSize: 15,
+    fontSize: 19,
+  },
+  subtitle: {
+    color: colors.textSecondary,
+    fontFamily: fonts.body,
+    fontSize: 16,
+    lineHeight: 23,
+    marginTop: spacing.xs,
+    maxWidth: 520,
   },
   title: {
     color: colors.textPrimary,
     fontFamily: fonts.heading,
-    fontSize: 22,
+    fontSize: 28,
+    lineHeight: 34,
     marginTop: 3,
-    maxWidth: 250,
+    maxWidth: 300,
   },
   titleDesktop: {
     maxWidth: 720,

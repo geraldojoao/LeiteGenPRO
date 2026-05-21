@@ -20,6 +20,11 @@ interface MatrizFormProps {
 type FormErrors = Partial<Record<'nome' | 'brinco' | 'raca' | 'nascimento' | 'producaoMediaLitros', string>>;
 
 const statusOptions: StatusMatriz[] = ['Ativa', 'Seca', 'Descarte'];
+const statusOptionLabels: Record<StatusMatriz, string> = {
+  Ativa: 'Em leite',
+  Seca: 'Seca',
+  Descarte: 'Separar',
+};
 
 export function MatrizForm({ onSaved, onCancel }: MatrizFormProps): JSX.Element {
   const { width } = useWindowDimensions();
@@ -138,25 +143,25 @@ export function MatrizForm({ onSaved, onCancel }: MatrizFormProps): JSX.Element 
         </View>
         {errors.raca ? <Text style={styles.error}>{errors.raca}</Text> : null}
 
-        <Text style={styles.label}>Status</Text>
+        <Text style={styles.label}>Situação</Text>
         <View style={styles.chipWrap}>
           {statusOptions.map((item) => {
             const active = status === item;
             return (
               <Pressable
-                accessibilityLabel={`Selecionar status ${item}`}
+                accessibilityLabel={`Selecionar situação ${statusOptionLabels[item]}`}
                 key={item}
                 onPress={() => setStatus(item)}
                 style={[styles.chip, active && styles.chipActive]}
               >
-                <Text style={[styles.chipText, active && styles.chipTextActive]}>{item}</Text>
+                <Text style={[styles.chipText, active && styles.chipTextActive]}>{statusOptionLabels[item]}</Text>
               </Pressable>
             );
           })}
         </View>
 
         <View style={styles.field}>
-          <Text style={styles.label}>Data Nasc.</Text>
+          <Text style={styles.label}>Data de nascimento</Text>
           <Pressable
             accessibilityLabel="Selecionar data de nascimento"
             onPress={() => setShowDatePicker(true)}
@@ -183,9 +188,9 @@ export function MatrizForm({ onSaved, onCancel }: MatrizFormProps): JSX.Element 
         )}
       </Section>
 
-      <Section title="Produção" icon="chart-line">
+      <Section title="Leite" icon="chart-line">
         <TextField
-          label="Produção Média (último controle)"
+          label="Produção média"
           value={producaoMediaLitros}
           onChangeText={setProducaoMediaLitros}
           keyboardType="number-pad"
@@ -193,13 +198,13 @@ export function MatrizForm({ onSaved, onCancel }: MatrizFormProps): JSX.Element 
           error={errors.producaoMediaLitros}
         />
         <TextField
-          label="Nº de Lactações"
+          label="Número de lactações"
           value={numeroLactacoes}
           onChangeText={setNumeroLactacoes}
           keyboardType="number-pad"
         />
         <TextField
-          label="Intervalo entre Partos"
+          label="Dias entre partos"
           value={intervaloEntrePartosDias}
           onChangeText={setIntervaloEntrePartosDias}
           keyboardType="number-pad"
@@ -207,24 +212,24 @@ export function MatrizForm({ onSaved, onCancel }: MatrizFormProps): JSX.Element 
         />
       </Section>
 
-      <Section title="Características Físicas" icon="cow">
+      <Section title="Corpo do animal" icon="cow">
         <FenotipoSlider
           label="Estatura"
           value={fenotipo.estatura}
           onChange={(value) => setFenotipo((state) => ({ ...state, estatura: value }))}
         />
         <FenotipoSlider
-          label="Profund. Corporal"
+          label="Profundidade corporal"
           value={fenotipo.profundidadeCorporal}
           onChange={(value) => setFenotipo((state) => ({ ...state, profundidadeCorporal: value }))}
         />
         <FenotipoSlider
-          label="Composto Úbere"
+          label="Úbere"
           value={fenotipo.compostoUbere}
           onChange={(value) => setFenotipo((state) => ({ ...state, compostoUbere: value }))}
         />
         <FenotipoSlider
-          label="Pernas e Pés"
+          label="Pernas e pés"
           value={fenotipo.pernasEPes}
           onChange={(value) => setFenotipo((state) => ({ ...state, pernasEPes: value }))}
         />
@@ -256,11 +261,11 @@ export function MatrizForm({ onSaved, onCancel }: MatrizFormProps): JSX.Element 
           style={styles.photoButton}
         >
           <MaterialCommunityIcons name="camera-plus" size={18} color={colors.primary} />
-          <Text style={styles.photoText}>Adicionar Foto</Text>
+        <Text style={styles.photoText}>Adicionar foto</Text>
         </Pressable>
         <Pressable accessibilityLabel="Salvar matriz" onPress={save} style={styles.saveButton}>
           <MaterialCommunityIcons name="content-save" size={18} color={colors.surface} />
-          <Text style={styles.saveText}>Salvar Matriz</Text>
+          <Text style={styles.saveText}>Salvar animal</Text>
         </Pressable>
       </View>
 
@@ -371,18 +376,20 @@ const styles = StyleSheet.create({
   },
   cancelButton: {
     alignItems: 'center',
-    paddingVertical: spacing.sm,
+    minHeight: 60,
+    justifyContent: 'center',
   },
   cancelText: {
     color: colors.textSecondary,
     fontFamily: fonts.heading,
-    fontSize: 14,
+    fontSize: 17,
   },
   chip: {
     backgroundColor: colors.cream,
     borderColor: colors.border,
-    borderRadius: radii.pill,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
+    minHeight: 48,
     paddingHorizontal: spacing.md,
     paddingVertical: 9,
   },
@@ -393,7 +400,7 @@ const styles = StyleSheet.create({
   chipText: {
     color: colors.textSecondary,
     fontFamily: fonts.heading,
-    fontSize: 12,
+    fontSize: 16,
   },
   chipTextActive: {
     color: colors.surface,
@@ -412,21 +419,21 @@ const styles = StyleSheet.create({
     backgroundColor: colors.cream,
     borderColor: colors.border,
     borderRadius: radii.sm,
-    borderWidth: 1,
+    borderWidth: 2,
     flexDirection: 'row',
     gap: spacing.sm,
     paddingHorizontal: spacing.md,
-    paddingVertical: 13,
+    minHeight: 60,
   },
   dateText: {
     color: colors.textPrimary,
     fontFamily: fonts.heading,
-    fontSize: 14,
+    fontSize: 17,
   },
   error: {
     color: colors.danger,
     fontFamily: fonts.body,
-    fontSize: 12,
+    fontSize: 16,
   },
   field: {
     gap: 6,
@@ -435,13 +442,13 @@ const styles = StyleSheet.create({
     backgroundColor: colors.cream,
     borderColor: colors.border,
     borderRadius: radii.sm,
-    borderWidth: 1,
+    borderWidth: 2,
     color: colors.textPrimary,
     flex: 1,
     fontFamily: fonts.body,
-    fontSize: 14,
+    fontSize: 16,
+    minHeight: 60,
     paddingHorizontal: spacing.md,
-    paddingVertical: 12,
   },
   inputWithSuffix: {
     paddingRight: 122,
@@ -455,43 +462,43 @@ const styles = StyleSheet.create({
   label: {
     color: colors.textSecondary,
     fontFamily: fonts.body,
-    fontSize: 12,
+    fontSize: 16,
   },
   photoButton: {
     alignItems: 'center',
     backgroundColor: colors.emeraldSoft,
-    borderRadius: radii.pill,
+    borderRadius: radii.sm,
     flex: 1,
     flexDirection: 'row',
     gap: spacing.sm,
     justifyContent: 'center',
-    paddingVertical: 13,
+    minHeight: 60,
   },
   photoText: {
     color: colors.primary,
     fontFamily: fonts.heading,
-    fontSize: 14,
+    fontSize: 17,
   },
   saveButton: {
     alignItems: 'center',
     backgroundColor: colors.primary,
-    borderRadius: radii.pill,
+    borderRadius: radii.sm,
     flex: 1,
     flexDirection: 'row',
     gap: spacing.sm,
     justifyContent: 'center',
-    paddingVertical: 13,
+    minHeight: 60,
   },
   saveText: {
     color: colors.surface,
     fontFamily: fonts.heading,
-    fontSize: 14,
+    fontSize: 17,
   },
   section: {
     backgroundColor: colors.surface,
     borderColor: colors.border,
-    borderRadius: radii.md,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     gap: spacing.md,
     padding: spacing.md,
     ...shadows.soft,
@@ -504,7 +511,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     color: colors.textPrimary,
     fontFamily: fonts.heading,
-    fontSize: 16,
+    fontSize: 22,
   },
   sliderHeader: {
     alignItems: 'center',
@@ -517,12 +524,12 @@ const styles = StyleSheet.create({
   sliderValue: {
     color: colors.primary,
     fontFamily: fonts.heading,
-    fontSize: 13,
+    fontSize: 16,
   },
   suffix: {
     color: colors.textSecondary,
     fontFamily: fonts.body,
-    fontSize: 12,
+    fontSize: 16,
     position: 'absolute',
     right: spacing.md,
     top: 14,

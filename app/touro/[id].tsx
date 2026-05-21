@@ -40,7 +40,7 @@ export default function TouroDetailsScreen(): JSX.Element {
           <EmptyState
             icon="alert-circle-outline"
             title="Touro não encontrado"
-            message="O catálogo local não possui esse reprodutor. Atualize os dados ou volte para a busca."
+            message="O catálogo local não possui esse touro. Atualize os dados ou volte para a busca."
           />
         </View>
       </SafeAreaView>
@@ -58,6 +58,7 @@ export default function TouroDetailsScreen(): JSX.Element {
         showsVerticalScrollIndicator={false}
       >
         <Hero touro={touro} isNarrow={responsive.isNarrow} isDesktop={responsive.isDesktop} />
+        <SimpleSummary touro={touro} />
         <SpiderChart touro={touro} />
         <DepTable touro={touro} contentWidth={responsive.contentWidth} />
         <SemenQuality touro={touro} />
@@ -93,9 +94,9 @@ function Hero({ touro, isNarrow, isDesktop }: { touro: Touro; isNarrow: boolean;
         <AccuracyBadge nivel={touro.nivelRisco} acuracia={touro.acuracia} />
         <Text style={styles.heroDescription}>{touro.descricao}</Text>
         <View style={[styles.heroMetrics, isNarrow && styles.heroMetricsStack]}>
-          <MetricPill label="PTA Leite" value={formatKg(touro.pta)} />
+          <MetricPill label="Ajuda a aumentar o leite" value={formatKg(touro.pta)} />
           <MetricPill label="Dose" value={formatCurrency(touro.precoPorDose)} />
-          <MetricPill label="Úbere" value={`${touro.fenotipo.compostoUbere}/9`} />
+          <MetricPill label="Corpo do animal" value={`${touro.fenotipo.compostoUbere}/9`} />
         </View>
       </View>
     </ImageBackground>
@@ -111,20 +112,63 @@ function MetricPill({ label, value }: { label: string; value: string }): JSX.Ele
   );
 }
 
+function SimpleSummary({ touro }: { touro: Touro }): JSX.Element {
+  const benefits = [
+    {
+      icon: 'water-plus' as const,
+      title: 'Mais leite',
+      text: `${formatKg(touro.deps.leite)} de ajuda genética para produção.`,
+      tone: colors.primary,
+    },
+    {
+      icon: 'baby-face-outline' as const,
+      title: 'Parto fácil',
+      text: `${touro.deps.facilidadeParto}% de facilidade esperada.`,
+      tone: colors.success,
+    },
+    {
+      icon: 'heart-plus-outline' as const,
+      title: 'Bezerras fortes',
+      text: touro.tipoSemen === 'Sexado Fêmea' ? 'Boa opção para gerar mais fêmeas.' : 'Boa estrutura para melhorar filhas.',
+      tone: colors.warning,
+    },
+  ];
+
+  return (
+    <View style={styles.summaryCard}>
+      <View>
+        <Text style={styles.summaryEyebrow}>Resumo simples</Text>
+        <Text style={styles.summaryTitle}>Por que escolher este touro?</Text>
+      </View>
+      <View style={styles.summaryGrid}>
+        {benefits.map((benefit) => (
+          <View key={benefit.title} style={styles.summaryBenefit}>
+            <View style={[styles.summaryBenefitIcon, { backgroundColor: `${benefit.tone}14` }]}>
+              <MaterialCommunityIcons name={benefit.icon} size={25} color={benefit.tone} />
+            </View>
+            <Text style={styles.summaryBenefitTitle}>{benefit.title}</Text>
+            <Text style={styles.summaryBenefitText}>{benefit.text}</Text>
+          </View>
+        ))}
+      </View>
+    </View>
+  );
+}
+
 function DepTable({ touro, contentWidth }: { touro: Touro; contentWidth: number }): JSX.Element {
   const [selected, setSelected] = useState<string | null>(null);
   const tableWidth = Math.max(contentWidth, contentWidth < 520 ? 560 : 680);
   const rows: DepRowData[] = [
     {
-      label: 'Produção Leite',
+      label: 'Ajuda a aumentar o leite',
       value: formatKg(touro.deps.leite),
       accuracy: touro.acuracia,
       classification: touro.deps.leite > 1000 ? 'Topo 10%' : touro.deps.leite > 700 ? 'Acima da média' : 'Média',
-      meaning: 'Ajuda a projetar o ganho de volume de leite nas filhas em relação à base da raça.',
+      meaning: 'Mostra quanto este touro pode ajudar na produção de leite das filhas.',
       favorable: touro.deps.leite > 700,
     },
     {
-      label: 'Gordura',
+      label: 'Gordura do leite',
       value: formatKg(touro.deps.gordura),
       accuracy: Math.max(touro.acuracia - 2, 40),
       classification: touro.deps.gordura > 35 ? 'Acima da média' : 'Média',
@@ -132,7 +176,7 @@ function DepTable({ touro, contentWidth }: { touro: Touro; contentWidth: number 
       favorable: touro.deps.gordura > 30,
     },
     {
-      label: 'Proteína',
+      label: 'Proteína do leite',
       value: formatKg(touro.deps.proteina),
       accuracy: Math.max(touro.acuracia - 4, 40),
       classification: touro.deps.proteina > 32 ? 'Acima da média' : 'Média',
@@ -140,7 +184,7 @@ function DepTable({ touro, contentWidth }: { touro: Touro; contentWidth: number 
       favorable: touro.deps.proteina > 28,
     },
     {
-      label: 'Vida Produtiva',
+      label: 'Tempo produzindo',
       value: `${formatNumber(touro.deps.vidaProdutiva, 1)} mes`,
       accuracy: Math.max(touro.acuracia - 9, 40),
       classification: touro.deps.vidaProdutiva > 2 ? 'Acima da média' : 'Média',
@@ -148,7 +192,7 @@ function DepTable({ touro, contentWidth }: { touro: Touro; contentWidth: number 
       favorable: touro.deps.vidaProdutiva > 2,
     },
     {
-      label: 'Cél. Somática',
+      label: 'Saúde do úbere',
       value: formatNumber(touro.deps.celulaSomatica, 2),
       accuracy: Math.max(touro.acuracia - 13, 40),
       classification: touro.deps.celulaSomatica < 0 ? 'Favorável' : 'Atenção',
@@ -156,7 +200,7 @@ function DepTable({ touro, contentWidth }: { touro: Touro; contentWidth: number 
       favorable: touro.deps.celulaSomatica < 0,
     },
     {
-      label: 'Facilid. Parto',
+      label: 'Parto fácil',
       value: `${touro.deps.facilidadeParto}%`,
       accuracy: touro.acuracia,
       classification: touro.deps.facilidadeParto >= 90 ? 'Excelente' : 'Boa',
@@ -167,14 +211,14 @@ function DepTable({ touro, contentWidth }: { touro: Touro; contentWidth: number 
 
   return (
     <View style={styles.card}>
-      <Text style={styles.sectionTitle}>Tabela de DEPs</Text>
+      <Text style={styles.sectionTitle}>Dados técnicos</Text>
       <ScrollView horizontal showsHorizontalScrollIndicator={false}>
         <View style={[styles.depTable, { minWidth: tableWidth }]}>
           <View style={styles.depHeader}>
-            <Text style={[styles.depCell, styles.depTrait]}>Característica</Text>
-            <Text style={styles.depCell}>DEP</Text>
-            <Text style={styles.depCell}>Acurácia</Text>
-            <Text style={styles.depCell}>Classificação</Text>
+            <Text style={[styles.depCell, styles.depTrait]}>Informação</Text>
+            <Text style={styles.depCell}>Valor</Text>
+            <Text style={styles.depCell}>Confiança</Text>
+            <Text style={styles.depCell}>Resultado</Text>
           </View>
           {rows.map((row) => (
             <View key={row.label}>
@@ -208,12 +252,12 @@ function SemenQuality({ touro }: { touro: Touro }): JSX.Element {
   return (
     <View style={styles.card}>
       <View style={styles.sectionHeader}>
-        <Text style={styles.sectionTitle}>Qualidade do Sêmen</Text>
+        <Text style={styles.sectionTitle}>Qualidade do sêmen</Text>
         <Text style={[styles.semenScore, semen.alerta !== 'OK' && styles.semenScoreAlert]}>{semen.scoreFinal}/100</Text>
       </View>
       <QualityRow label="Motilidade" value={touro.qualidadeSemen.motilidade} suffix="%" />
       <QualityRow label="Vigor" value={touro.qualidadeSemen.vigor} max={5} suffix="/5" />
-      <QualityRow label="Morfologia" value={touro.qualidadeSemen.morfologia} suffix="%" />
+      <QualityRow label="Qualidade da amostra" value={touro.qualidadeSemen.morfologia} suffix="%" />
       <View style={styles.infoRow}>
         <Text style={styles.infoLabel}>Concentração</Text>
         <Text style={styles.infoValue}>{touro.qualidadeSemen.concentracao}M/mL</Text>
@@ -222,7 +266,7 @@ function SemenQuality({ touro }: { touro: Touro }): JSX.Element {
         <View style={styles.alertBox}>
           <MaterialCommunityIcons name="alert-octagon" size={18} color={colors.danger} />
           <Text style={styles.alertText}>
-            Recomendação: revisar descongelamento, horário de inseminação e condição corporal antes do protocolo de IATF.
+            Atenção: revise descongelamento, horário de inseminação e condição corporal antes do manejo.
           </Text>
         </View>
       )}
@@ -256,7 +300,7 @@ function QualityRow({
 function ClimateSection({ touro }: { touro: Touro }): JSX.Element {
   return (
     <View style={styles.card}>
-      <Text style={styles.sectionTitle}>Adaptação Climática</Text>
+      <Text style={styles.sectionTitle}>Onde ele se adapta melhor</Text>
       <View style={styles.mapWrap}>
         <Svg width="100%" height={220} viewBox="0 0 280 220" accessibilityLabel={`Mapa de biomas recomendados para ${touro.nome}`}>
           <Path d="M145 12 L210 28 L244 72 L231 122 L252 168 L206 206 L147 192 L92 210 L43 170 L58 118 L32 77 L76 34 Z" fill="#f7efdf" stroke={colors.border} strokeWidth={3} />
@@ -298,8 +342,8 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     backgroundColor: colors.redSoft,
     borderColor: `${colors.danger}40`,
-    borderRadius: radii.md,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     flexDirection: 'row',
     gap: spacing.sm,
     padding: spacing.md,
@@ -308,15 +352,15 @@ const styles = StyleSheet.create({
     color: colors.danger,
     flex: 1,
     fontFamily: fonts.body,
-    fontSize: 12,
-    lineHeight: 18,
+    fontSize: 16,
+    lineHeight: 22,
   },
   biomeChip: {
     alignItems: 'center',
     backgroundColor: colors.cream,
     borderColor: colors.border,
-    borderRadius: radii.pill,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     flexDirection: 'row',
     gap: 5,
     paddingHorizontal: spacing.sm,
@@ -334,14 +378,16 @@ const styles = StyleSheet.create({
   biomeText: {
     color: colors.textSecondary,
     fontFamily: fonts.heading,
-    fontSize: 11,
+    fontSize: 16,
   },
   biomeTextActive: {
     color: colors.surface,
   },
   card: {
     backgroundColor: colors.surface,
-    borderRadius: radii.md,
+    borderColor: colors.border,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     gap: spacing.md,
     maxWidth: '100%',
     padding: spacing.lg,
@@ -359,12 +405,12 @@ const styles = StyleSheet.create({
   centralLogo: {
     color: colors.primary,
     fontFamily: fonts.heading,
-    fontSize: 12,
+    fontSize: 16,
   },
   centralText: {
     color: colors.textPrimary,
     fontFamily: fonts.heading,
-    fontSize: 12,
+    fontSize: 16,
   },
   container: {
     gap: spacing.lg,
@@ -374,7 +420,7 @@ const styles = StyleSheet.create({
     color: colors.textPrimary,
     flex: 1,
     fontFamily: fonts.body,
-    fontSize: 11,
+    fontSize: 16,
     paddingHorizontal: 4,
     paddingVertical: spacing.sm,
     textAlign: 'center',
@@ -414,13 +460,13 @@ const styles = StyleSheet.create({
   heroDescription: {
     color: '#eef7ee',
     fontFamily: fonts.body,
-    fontSize: 13,
-    lineHeight: 20,
+    fontSize: 16,
+    lineHeight: 23,
   },
   heroMeta: {
     color: '#dbe8dd',
     fontFamily: fonts.body,
-    fontSize: 13,
+    fontSize: 16,
   },
   heroMetrics: {
     flexDirection: 'row',
@@ -460,7 +506,7 @@ const styles = StyleSheet.create({
   infoLabel: {
     color: colors.textSecondary,
     fontFamily: fonts.body,
-    fontSize: 13,
+    fontSize: 16,
   },
   infoRow: {
     alignItems: 'center',
@@ -470,14 +516,14 @@ const styles = StyleSheet.create({
   infoValue: {
     color: colors.textPrimary,
     fontFamily: fonts.heading,
-    fontSize: 14,
+    fontSize: 16,
   },
   mapWrap: {
     alignItems: 'center',
     backgroundColor: colors.cream,
     borderColor: colors.border,
-    borderRadius: radii.md,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     justifyContent: 'center',
     overflow: 'hidden',
   },
@@ -490,30 +536,30 @@ const styles = StyleSheet.create({
   meaningText: {
     color: colors.textSecondary,
     fontFamily: fonts.body,
-    fontSize: 12,
-    lineHeight: 18,
+    fontSize: 16,
+    lineHeight: 22,
     marginTop: 3,
   },
   meaningTitle: {
     color: colors.primary,
     fontFamily: fonts.heading,
-    fontSize: 12,
+    fontSize: 16,
   },
   metricPill: {
     backgroundColor: 'rgba(255,255,255,0.9)',
-    borderRadius: radii.md,
+    borderRadius: radii.sm,
     flex: 1,
     padding: spacing.sm,
   },
   metricPillLabel: {
     color: colors.textSecondary,
     fontFamily: fonts.body,
-    fontSize: 10,
+    fontSize: 16,
   },
   metricPillValue: {
     color: colors.primary,
     fontFamily: fonts.heading,
-    fontSize: 13,
+    fontSize: 17,
     marginTop: 2,
   },
   notFound: {
@@ -529,8 +575,8 @@ const styles = StyleSheet.create({
   qualityLabel: {
     color: colors.textSecondary,
     fontFamily: fonts.body,
-    fontSize: 12,
-    width: 82,
+    fontSize: 16,
+    width: 138,
   },
   qualityRow: {
     alignItems: 'center',
@@ -547,9 +593,9 @@ const styles = StyleSheet.create({
   qualityValue: {
     color: colors.textPrimary,
     fontFamily: fonts.heading,
-    fontSize: 12,
+    fontSize: 16,
     textAlign: 'right',
-    width: 54,
+    width: 70,
   },
   safeArea: {
     backgroundColor: colors.background,
@@ -563,7 +609,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     color: colors.textPrimary,
     fontFamily: fonts.heading,
-    fontSize: 18,
+    fontSize: 22,
   },
   semenScore: {
     color: colors.success,
@@ -572,6 +618,62 @@ const styles = StyleSheet.create({
   },
   semenScoreAlert: {
     color: colors.danger,
+  },
+  summaryBenefit: {
+    backgroundColor: colors.surface,
+    borderColor: colors.border,
+    borderRadius: radii.sm,
+    borderWidth: 2,
+    flex: 1,
+    gap: spacing.sm,
+    minHeight: 146,
+    minWidth: 180,
+    padding: spacing.lg,
+  },
+  summaryBenefitIcon: {
+    alignItems: 'center',
+    borderRadius: radii.sm,
+    height: 52,
+    justifyContent: 'center',
+    width: 52,
+  },
+  summaryBenefitText: {
+    color: colors.textSecondary,
+    fontFamily: fonts.body,
+    fontSize: 16,
+    lineHeight: 22,
+  },
+  summaryBenefitTitle: {
+    color: colors.textPrimary,
+    fontFamily: fonts.heading,
+    fontSize: 20,
+  },
+  summaryCard: {
+    backgroundColor: colors.emeraldSoft,
+    borderColor: colors.primary,
+    borderRadius: radii.sm,
+    borderWidth: 2,
+    gap: spacing.lg,
+    padding: spacing.lg,
+    ...shadows.soft,
+  },
+  summaryEyebrow: {
+    color: colors.primary,
+    fontFamily: fonts.heading,
+    fontSize: 16,
+    textTransform: 'uppercase',
+  },
+  summaryGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.md,
+  },
+  summaryTitle: {
+    color: colors.textPrimary,
+    fontFamily: fonts.heading,
+    fontSize: 24,
+    lineHeight: 30,
+    marginTop: 4,
   },
   warn: {
     color: colors.warning,

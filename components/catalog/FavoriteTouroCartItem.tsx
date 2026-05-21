@@ -45,7 +45,7 @@ export function FavoriteTouroCartItem({ touro, cardWidth }: FavoriteTouroCartIte
               {touro.nome}
             </Text>
             <Text numberOfLines={1} style={styles.registry}>
-              Código {touro.registro}
+              Touro selecionado
             </Text>
           </View>
           <View style={styles.raceBadge}>
@@ -63,7 +63,7 @@ export function FavoriteTouroCartItem({ touro, cardWidth }: FavoriteTouroCartIte
             </Text>
           </View>
           <View style={styles.infoItem}>
-            <Text style={styles.infoLabel}>Valor</Text>
+            <Text style={styles.infoLabel}>Valor da dose</Text>
             <Text style={styles.price}>{formatCurrency(touro.precoPorDose)}/dose</Text>
           </View>
         </View>
@@ -75,7 +75,7 @@ export function FavoriteTouroCartItem({ touro, cardWidth }: FavoriteTouroCartIte
             style={({ pressed }) => [styles.detailButton, shouldStack && styles.fullButton, pressed && styles.pressed]}
           >
             <MaterialCommunityIcons name="eye-outline" size={18} color={colors.surface} />
-            <Text style={styles.detailText}>Ver detalhes</Text>
+            <Text style={styles.detailText}>Ver touro</Text>
           </Pressable>
           <Pressable
             accessibilityLabel={`Remover ${touro.nome} do carrinho`}
@@ -83,7 +83,7 @@ export function FavoriteTouroCartItem({ touro, cardWidth }: FavoriteTouroCartIte
             style={({ pressed }) => [styles.removeButton, shouldStack && styles.fullButton, pressed && styles.pressed]}
           >
             <MaterialCommunityIcons name="heart-remove-outline" size={18} color={colors.danger} />
-            <Text style={styles.removeText}>Remover</Text>
+            <Text style={styles.removeText}>Tirar</Text>
           </Pressable>
         </View>
       </View>
@@ -104,8 +104,8 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.surface,
     borderColor: colors.border,
-    borderRadius: radii.md,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     flexDirection: 'row',
     gap: spacing.md,
     maxWidth: '100%',
@@ -123,17 +123,17 @@ const styles = StyleSheet.create({
   detailButton: {
     alignItems: 'center',
     backgroundColor: colors.primary,
-    borderRadius: radii.pill,
+    borderRadius: radii.sm,
     flexDirection: 'row',
     gap: spacing.xs,
     justifyContent: 'center',
-    minHeight: 40,
-    paddingHorizontal: spacing.md,
+    minHeight: 60,
+    paddingHorizontal: spacing.lg,
   },
   detailText: {
     color: colors.surface,
     fontFamily: fonts.heading,
-    fontSize: 12,
+    fontSize: 17,
   },
   fullButton: {
     width: '100%',
@@ -166,18 +166,18 @@ const styles = StyleSheet.create({
   infoLabel: {
     color: colors.textSecondary,
     fontFamily: fonts.body,
-    fontSize: 11,
+    fontSize: 16,
   },
   infoValue: {
     color: colors.textPrimary,
     fontFamily: fonts.heading,
-    fontSize: 13,
+    fontSize: 17,
     marginTop: 3,
   },
   name: {
     color: colors.textPrimary,
     fontFamily: fonts.heading,
-    fontSize: 18,
+    fontSize: 21,
   },
   pressed: {
     opacity: 0.84,
@@ -185,12 +185,12 @@ const styles = StyleSheet.create({
   price: {
     color: colors.secondary,
     fontFamily: fonts.heading,
-    fontSize: 14,
+    fontSize: 18,
     marginTop: 3,
   },
   raceBadge: {
     backgroundColor: colors.amberSoft,
-    borderRadius: radii.pill,
+    borderRadius: radii.sm,
     maxWidth: 136,
     paddingHorizontal: spacing.sm,
     paddingVertical: 6,
@@ -198,30 +198,30 @@ const styles = StyleSheet.create({
   raceText: {
     color: colors.warning,
     fontFamily: fonts.heading,
-    fontSize: 10,
+    fontSize: 16,
   },
   registry: {
     color: colors.textSecondary,
     fontFamily: fonts.body,
-    fontSize: 12,
+    fontSize: 16,
     marginTop: 3,
   },
   removeButton: {
     alignItems: 'center',
     backgroundColor: colors.redSoft,
     borderColor: `${colors.danger}30`,
-    borderRadius: radii.pill,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     flexDirection: 'row',
     gap: spacing.xs,
     justifyContent: 'center',
-    minHeight: 40,
-    paddingHorizontal: spacing.md,
+    minHeight: 60,
+    paddingHorizontal: spacing.lg,
   },
   removeText: {
     color: colors.danger,
     fontFamily: fonts.heading,
-    fontSize: 12,
+    fontSize: 17,
   },
   titleWrap: {
     flex: 1,

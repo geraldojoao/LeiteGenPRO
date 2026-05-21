@@ -7,15 +7,23 @@ node_modules/
 expo-env.d.ts
 web-build/
 dist/
+build/
 
 # Native build outputs
 android/
 ios/
+*.apk
+*.aab
+*.ipa
+
+# Mobile signing and provisioning files
 *.jks
+*.keystore
 *.p8
 *.p12
 *.key
 *.mobileprovision
+*.provisionprofile
 
 # Deployment and local service metadata
 .vercel/
@@ -32,17 +40,43 @@ npm-debug.*
 yarn-debug.*
 yarn-error.*
 pnpm-debug.*
+lerna-debug.log*
 
 # Coverage and test output
 coverage/
 .nyc_output/
+junit.xml
+test-results/
 
-# Editor, OS and temporary files
+# TypeScript and tooling cache
+*.tsbuildinfo
+.eslintcache
+.cache/
+.parcel-cache/
+.turbo/
+
+# Visual Studio and .NET local files
+.vs/
+bin/
+obj/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.rsuser
+
+# Editor settings that are personal/local
+.idea/
+*.swp
+*.swo
+
+# OS and temporary files
 .DS_Store
 Thumbs.db
+desktop.ini
 *.tmp
 *.temp
 *.orig.*
+*.bak
 *.screenshot.png
 *-check.png
-

@@ -14,7 +14,7 @@ export default function TabLayout(): JSX.Element {
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: colors.accent,
+        tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: colors.textSecondary,
         tabBarShowLabel: true,
         tabBarLabelPosition: 'below-icon',
@@ -29,7 +29,7 @@ export default function TabLayout(): JSX.Element {
         },
         tabBarLabelStyle: {
           fontFamily: fonts.heading,
-          fontSize: isCompact ? 12 : 13,
+          fontSize: isCompact ? 12 : 14,
         },
         tabBarBadgeStyle: {
           backgroundColor: colors.danger,
@@ -40,19 +40,19 @@ export default function TabLayout(): JSX.Element {
         tabBarStyle: {
           backgroundColor: colors.surface,
           borderTopColor: colors.border,
-          borderTopWidth: 1,
-          height: isDesktop ? 78 : isCompact ? 68 : 72,
-          paddingBottom: isCompact ? 8 : 10,
-          paddingTop: isCompact ? 8 : 10,
+          borderTopWidth: 2,
+          height: isDesktop ? 84 : isCompact ? 74 : 78,
+          paddingBottom: isCompact ? 9 : 12,
+          paddingTop: isCompact ? 9 : 12,
         },
       }}
     >
       <Tabs.Screen
         name="home"
         options={{
-          title: 'Inicio',
-          tabBarLabel: 'Inicio',
-          tabBarAccessibilityLabel: 'Inicio',
+          title: 'Início',
+          tabBarLabel: 'Início',
+          tabBarAccessibilityLabel: 'Início',
           tabBarIcon: ({ color, size }) => <AppIcon name="home" color={color} size={size} />,
         }}
       />
@@ -68,29 +68,39 @@ export default function TabLayout(): JSX.Element {
       <Tabs.Screen
         name="busca"
         options={{
-          title: 'Recom.',
-          tabBarLabel: 'Recom.',
-          tabBarAccessibilityLabel: 'Recomendacoes',
+          title: 'Touros',
+          tabBarLabel: 'Touros',
+          tabBarAccessibilityLabel: 'Touros recomendados',
           tabBarIcon: ({ color, size }) => <AppIcon name="search" color={color} size={size} />,
         }}
       />
       <Tabs.Screen
         name="marketplace"
         options={{
-          title: 'Catalogo',
-          tabBarLabel: 'Catalogo',
-          tabBarAccessibilityLabel: 'Catalogo',
+          href: null,
+          title: 'Catálogo',
+          tabBarLabel: 'Catálogo',
+          tabBarAccessibilityLabel: 'Catálogo',
           tabBarIcon: ({ color, size }) => <AppIcon name="store" color={color} size={size} />,
         }}
       />
       <Tabs.Screen
         name="carrinho"
         options={{
-          title: 'Carrinho',
-          tabBarLabel: 'Carrinho',
-          tabBarAccessibilityLabel: 'Carrinho de favoritos',
+          title: 'Favoritos',
+          tabBarLabel: 'Favoritos',
+          tabBarAccessibilityLabel: 'Favoritos',
           tabBarBadge: favoritosCount > 0 ? favoritosCount : undefined,
-          tabBarIcon: ({ color, size }) => <AppIcon name="shopping-cart" color={color} size={size} />,
+          tabBarIcon: ({ color, size }) => <AppIcon name="heart-pulse" color={color} size={size} />,
+        }}
+      />
+      <Tabs.Screen
+        name="perfil"
+        options={{
+          title: 'Perfil',
+          tabBarLabel: 'Perfil',
+          tabBarAccessibilityLabel: 'Perfil',
+          tabBarIcon: ({ color, size }) => <AppIcon name="user" color={color} size={size} />,
         }}
       />
     </Tabs>

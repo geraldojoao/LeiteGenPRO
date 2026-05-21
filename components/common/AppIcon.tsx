@@ -21,6 +21,7 @@ export type AppIconName =
   | 'store'
   | 'tag'
   | 'trending-up'
+  | 'user'
   | 'users'
   | 'x';
 
@@ -196,6 +197,13 @@ function renderIcon(name: AppIconName): JSX.Element {
         <>
           <Path d="M4 17 10 11l4 4 6-8" />
           <Path d="M15 7h5v5" />
+        </>
+      );
+    case 'user':
+      return (
+        <>
+          <Circle cx="12" cy="8" r="4" />
+          <Path d="M4 21a8 8 0 0 1 16 0" />
         </>
       );
     case 'users':

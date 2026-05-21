@@ -36,37 +36,37 @@ export function SpiderChart({ touro }: SpiderChartProps): JSX.Element {
       {
         label: 'Leite',
         score: normalizarDEPPorRaca(touro, 'leite'),
-        explanation: 'Indica o volume adicional esperado de leite transmitido às filhas.',
+        explanation: 'Mostra a força do touro para ajudar a aumentar o leite das filhas.',
       },
       {
         label: 'Gordura',
         score: normalizarDEPPorRaca(touro, 'gordura'),
-        explanation: 'Mostra potencial para sólidos, importante em laticínios que pagam por qualidade.',
+        explanation: 'Ajuda quando o leite é pago por qualidade.',
       },
       {
         label: 'Proteína',
         score: normalizarDEPPorRaca(touro, 'proteina'),
-        explanation: 'Ajuda a selecionar animais para queijo, rendimento industrial e preço por litro.',
+        explanation: 'Ajuda no rendimento do leite para derivados.',
       },
       {
         label: 'Vida',
         score: normalizarDEPPorRaca(touro, 'vidaProdutiva'),
-        explanation: 'Resume longevidade produtiva e permanência das filhas no rebanho.',
+        explanation: 'Mostra chance de as filhas produzirem por mais tempo.',
       },
       {
         label: 'Úbere',
         score: (touro.fenotipo.compostoUbere / 9) * 100,
-        explanation: 'Avalia sustentação, inserção e estrutura do úbere para ordenha eficiente.',
+        explanation: 'Mostra qualidade do úbere para ordenha.',
       },
       {
         label: 'Pernas',
         score: (touro.fenotipo.pernasEPes / 9) * 100,
-        explanation: 'Indica locomoção e estrutura, especialmente crítica para sistemas a pasto.',
+        explanation: 'Mostra força das pernas para andar bem no manejo.',
       },
       {
         label: 'Temp.',
         score: (touro.deps.temperamento / 9) * 100,
-        explanation: 'Representa docilidade e facilidade de manejo das filhas.',
+        explanation: 'Mostra se as filhas tendem a ser mais fáceis de manejar.',
       },
     ],
     [touro],
@@ -83,11 +83,11 @@ export function SpiderChart({ touro }: SpiderChartProps): JSX.Element {
   return (
     <View style={styles.card}>
       <View style={styles.header}>
-        <Text style={styles.title}>Radar Genético</Text>
-        <Text style={styles.subtitle}>Scores normalizados 0-100</Text>
+        <Text style={styles.title}>Qualidade genética</Text>
+        <Text style={styles.subtitle}>Quanto maior, melhor para a fazenda</Text>
       </View>
 
-      <Svg width={chartSize} height={chartSize} accessibilityLabel={`Radar genético de ${touro.nome}`}>
+      <Svg width={chartSize} height={chartSize} accessibilityLabel={`Qualidade genética de ${touro.nome}`}>
         {[0.25, 0.5, 0.75, 1].map((ratio) => {
           const ringPoints = axes
             .map((_, index) => {
@@ -148,7 +148,7 @@ export function SpiderChart({ touro }: SpiderChartProps): JSX.Element {
       <View style={styles.axisList}>
         {axes.map((axis) => (
           <Pressable
-            accessibilityLabel={`Explicar DEP ${axis.label}`}
+            accessibilityLabel={`Explicar ${axis.label}`}
             key={axis.label}
             onPress={() => setSelected(axis)}
             style={[styles.axisChip, selected?.label === axis.label && styles.axisChipActive]}
@@ -173,7 +173,10 @@ export function SpiderChart({ touro }: SpiderChartProps): JSX.Element {
 const styles = StyleSheet.create({
   axisChip: {
     backgroundColor: colors.muted,
-    borderRadius: radii.pill,
+    borderRadius: radii.sm,
+    borderWidth: 2,
+    borderColor: colors.border,
+    minHeight: 48,
     paddingHorizontal: spacing.sm,
     paddingVertical: 7,
   },
@@ -189,7 +192,7 @@ const styles = StyleSheet.create({
   axisText: {
     color: colors.textSecondary,
     fontFamily: fonts.heading,
-    fontSize: 11,
+    fontSize: 16,
   },
   axisTextActive: {
     color: colors.surface,
@@ -197,7 +200,9 @@ const styles = StyleSheet.create({
   card: {
     alignItems: 'center',
     backgroundColor: colors.surface,
-    borderRadius: radii.md,
+    borderColor: colors.border,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     gap: spacing.md,
     padding: spacing.lg,
     ...shadows.soft,
@@ -208,32 +213,32 @@ const styles = StyleSheet.create({
   subtitle: {
     color: colors.textSecondary,
     fontFamily: fonts.body,
-    fontSize: 13,
+    fontSize: 16,
     marginTop: 2,
   },
   title: {
     color: colors.textPrimary,
     fontFamily: fonts.heading,
-    fontSize: 18,
+    fontSize: 22,
   },
   tooltip: {
     alignSelf: 'stretch',
     backgroundColor: colors.cream,
     borderColor: colors.border,
-    borderRadius: radii.md,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     padding: spacing.md,
   },
   tooltipText: {
     color: colors.textSecondary,
     fontFamily: fonts.body,
-    fontSize: 13,
-    lineHeight: 19,
+    fontSize: 16,
+    lineHeight: 22,
     marginTop: 4,
   },
   tooltipTitle: {
     color: colors.primary,
     fontFamily: fonts.heading,
-    fontSize: 13,
+    fontSize: 16,
   },
 });

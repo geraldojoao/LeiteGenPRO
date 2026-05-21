@@ -18,13 +18,13 @@ interface FilterDrawerProps {
 type PesoKey = keyof PesosSelecao;
 
 const pesoLabels: { key: PesoKey; label: string }[] = [
-  { key: 'leite', label: 'Produção de Leite' },
-  { key: 'gordura', label: 'Gordura' },
-  { key: 'proteina', label: 'Proteína' },
-  { key: 'vidaProdutiva', label: 'Vida Produtiva' },
-  { key: 'celulaSomatica', label: 'Saúde Úbere' },
-  { key: 'facilidadeParto', label: 'Facilidade Parto' },
-  { key: 'fenotipo', label: 'Conformação' },
+  { key: 'leite', label: 'Mais leite' },
+  { key: 'gordura', label: 'Gordura do leite' },
+  { key: 'proteina', label: 'Proteína do leite' },
+  { key: 'vidaProdutiva', label: 'Tempo produzindo' },
+  { key: 'celulaSomatica', label: 'Saúde do úbere' },
+  { key: 'facilidadeParto', label: 'Parto fácil' },
+  { key: 'fenotipo', label: 'Corpo do animal' },
 ];
 
 export function FilterDrawer({ visible, onClose }: FilterDrawerProps): JSX.Element {
@@ -80,8 +80,8 @@ export function FilterDrawer({ visible, onClose }: FilterDrawerProps): JSX.Eleme
           <View style={styles.handle} />
           <View style={styles.header}>
             <View>
-              <Text style={styles.title}>Filtros Avançados</Text>
-              <Text style={styles.subtitle}>Ranking técnico com adaptação climática</Text>
+              <Text style={styles.title}>Filtros</Text>
+              <Text style={styles.subtitle}>Escolha o que mais importa para sua fazenda</Text>
             </View>
             <Pressable accessibilityLabel="Fechar filtros" onPress={onClose} style={styles.iconButton}>
               <MaterialCommunityIcons name="close" size={22} color={colors.textPrimary} />
@@ -89,9 +89,9 @@ export function FilterDrawer({ visible, onClose }: FilterDrawerProps): JSX.Eleme
           </View>
 
           <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-            <Section title="Genética" icon="dna">
+            <Section title="Qualidade genética" icon="dna">
               <SliderRow
-                label="Acurácia mínima"
+                label="Confiança mínima"
                 value={filtros.acuraciaMinima ?? 0}
                 minimumValue={0}
                 maximumValue={100}
@@ -100,7 +100,7 @@ export function FilterDrawer({ visible, onClose }: FilterDrawerProps): JSX.Eleme
                 onValueChange={(value) => setFiltro('acuraciaMinima', value)}
               />
               <SliderRow
-                label="PTA Leite mínimo"
+                label="Ajuda a aumentar o leite"
                 value={filtros.ptaLeiteMínimo ?? 0}
                 minimumValue={0}
                 maximumValue={1450}
@@ -143,16 +143,16 @@ export function FilterDrawer({ visible, onClose }: FilterDrawerProps): JSX.Eleme
               />
             </Section>
 
-            <Section title="Adaptação Climática" icon="weather-sunny">
+            <Section title="Região da fazenda" icon="weather-sunny">
               <ChipGroup
-                label="Bioma/Região"
+                label="Clima ou região"
                 items={BIOMAS}
                 selected={filtros.bioma ?? []}
                 onToggle={(value) => toggleBioma(value)}
               />
             </Section>
 
-            <Section title="Fenótipo" icon="cow">
+            <Section title="Corpo do animal" icon="cow">
               <SliderRow
                 label="Estatura mínima"
                 value={filtros.estaturaMinima ?? 1}
@@ -163,7 +163,7 @@ export function FilterDrawer({ visible, onClose }: FilterDrawerProps): JSX.Eleme
                 onValueChange={(value) => setFiltro('estaturaMinima', value)}
               />
               <SliderRow
-                label="Composto de Úbere mínimo"
+                label="Úbere mínimo"
                 value={filtros.compostoUbereMinimo ?? 1}
                 minimumValue={1}
                 maximumValue={9}
@@ -172,7 +172,7 @@ export function FilterDrawer({ visible, onClose }: FilterDrawerProps): JSX.Eleme
                 onValueChange={(value) => setFiltro('compostoUbereMinimo', value)}
               />
               <SliderRow
-                label="Pernas e Pés mínimo"
+                label="Pernas e pés mínimo"
                 value={filtros.pernasEPesMinimo ?? 1}
                 minimumValue={1}
                 maximumValue={9}
@@ -182,7 +182,7 @@ export function FilterDrawer({ visible, onClose }: FilterDrawerProps): JSX.Eleme
               />
             </Section>
 
-            <Section title="Índice Personalizado" icon="tune-variant">
+            <Section title="Prioridade da fazenda" icon="tune-variant">
               <View style={styles.totalBox}>
                 <Text style={styles.totalLabel}>Soma automática</Text>
                 <Text style={[styles.totalValue, pesoTotal === 100 ? styles.totalOk : styles.totalWarning]}>{pesoTotal}%</Text>
@@ -209,7 +209,7 @@ export function FilterDrawer({ visible, onClose }: FilterDrawerProps): JSX.Eleme
             </Pressable>
             <Pressable accessibilityLabel="Calcular ranking personalizado" onPress={onClose} style={styles.primaryButton}>
               <MaterialCommunityIcons name="chart-line" size={18} color={colors.surface} />
-              <Text style={styles.primaryText}>Calcular Ranking</Text>
+              <Text style={styles.primaryText}>Ver touros</Text>
             </Pressable>
           </View>
         </Animated.View>
@@ -318,8 +318,9 @@ const styles = StyleSheet.create({
   chip: {
     backgroundColor: colors.cream,
     borderColor: colors.border,
-    borderRadius: radii.pill,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
+    minHeight: 48,
     paddingHorizontal: spacing.md,
     paddingVertical: 9,
   },
@@ -335,7 +336,7 @@ const styles = StyleSheet.create({
   chipText: {
     color: colors.textSecondary,
     fontFamily: fonts.heading,
-    fontSize: 12,
+    fontSize: 16,
   },
   chipTextActive: {
     color: colors.surface,
@@ -366,7 +367,7 @@ const styles = StyleSheet.create({
   groupLabel: {
     color: colors.textSecondary,
     fontFamily: fonts.heading,
-    fontSize: 12,
+    fontSize: 16,
   },
   handle: {
     alignSelf: 'center',
@@ -402,38 +403,38 @@ const styles = StyleSheet.create({
   primaryButton: {
     alignItems: 'center',
     backgroundColor: colors.primary,
-    borderRadius: radii.pill,
+    borderRadius: radii.sm,
     flex: 1,
     flexDirection: 'row',
     gap: spacing.sm,
     justifyContent: 'center',
-    paddingVertical: 13,
+    minHeight: 60,
   },
   primaryText: {
     color: colors.surface,
     fontFamily: fonts.heading,
-    fontSize: 14,
+    fontSize: 17,
   },
   secondaryButton: {
     alignItems: 'center',
     backgroundColor: colors.emeraldSoft,
-    borderRadius: radii.pill,
+    borderRadius: radii.sm,
     flexDirection: 'row',
     gap: spacing.sm,
     justifyContent: 'center',
     paddingHorizontal: spacing.lg,
-    paddingVertical: 13,
+    minHeight: 60,
   },
   secondaryText: {
     color: colors.primary,
     fontFamily: fonts.heading,
-    fontSize: 14,
+    fontSize: 17,
   },
   section: {
     backgroundColor: colors.surface,
     borderColor: colors.border,
-    borderRadius: radii.md,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     gap: spacing.md,
     padding: spacing.md,
   },
@@ -445,7 +446,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     color: colors.textPrimary,
     fontFamily: fonts.heading,
-    fontSize: 15,
+    fontSize: 18,
   },
   sheet: {
     backgroundColor: colors.background,
@@ -477,7 +478,7 @@ const styles = StyleSheet.create({
   sliderLabel: {
     color: colors.textPrimary,
     fontFamily: fonts.body,
-    fontSize: 13,
+    fontSize: 16,
   },
   sliderRow: {
     gap: 4,
@@ -485,25 +486,25 @@ const styles = StyleSheet.create({
   sliderValue: {
     color: colors.primary,
     fontFamily: fonts.heading,
-    fontSize: 13,
+    fontSize: 16,
   },
   subtitle: {
     color: colors.textSecondary,
     fontFamily: fonts.body,
-    fontSize: 13,
+    fontSize: 16,
     marginTop: 2,
   },
   title: {
     color: colors.textPrimary,
     fontFamily: fonts.heading,
-    fontSize: 20,
+    fontSize: 24,
   },
   totalBox: {
     alignItems: 'center',
     backgroundColor: colors.cream,
     borderColor: colors.border,
-    borderRadius: radii.md,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     flexDirection: 'row',
     justifyContent: 'space-between',
     padding: spacing.md,
@@ -511,7 +512,7 @@ const styles = StyleSheet.create({
   totalLabel: {
     color: colors.textSecondary,
     fontFamily: fonts.body,
-    fontSize: 13,
+    fontSize: 16,
   },
   totalOk: {
     color: colors.success,

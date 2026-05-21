@@ -52,10 +52,10 @@ export default function MarketplaceScreen(): JSX.Element {
       >
         <View style={[styles.header, responsive.isMobile && styles.headerStack]}>
           <View style={styles.headerText}>
-            <Text style={styles.eyebrow}>Marketplace</Text>
-            <Text style={styles.title}>Centrais e comparativo técnico</Text>
+            <Text style={styles.eyebrow}>Catálogo</Text>
+            <Text style={styles.title}>Touros por central</Text>
             <Text style={styles.subtitle}>
-              Compare preço, especialidade e desempenho dos reprodutores das principais centrais do Brasil.
+              Veja preços e touros disponíveis nas principais centrais.
             </Text>
           </View>
           <CartShortcut compact={responsive.isNarrow} />
@@ -94,8 +94,8 @@ export default function MarketplaceScreen(): JSX.Element {
 
         <View style={[styles.sectionHeader, responsive.isMobile && styles.sectionHeaderStack]}>
           <View>
-            <Text style={styles.sectionTitle}>Comparativo Lado a Lado</Text>
-            <Text style={styles.sectionSubtitle}>Melhor valor em cada linha destacado em verde</Text>
+            <Text style={styles.sectionTitle}>Comparação simples</Text>
+            <Text style={styles.sectionSubtitle}>O melhor de cada linha aparece em verde</Text>
           </View>
           {centralSelecionada && (
             <Pressable accessibilityLabel="Limpar filtro de central" onPress={() => setCentralSelecionada(null)} style={styles.clearPill}>
@@ -110,8 +110,8 @@ export default function MarketplaceScreen(): JSX.Element {
 
         <View style={styles.sectionHeader}>
           <View>
-            <Text style={styles.sectionTitle}>{centralSelecionada ?? 'Destaques do Marketplace'}</Text>
-            <Text style={styles.sectionSubtitle}>Use os cards para abrir detalhes e simular ROI</Text>
+            <Text style={styles.sectionTitle}>{centralSelecionada ?? 'Touros em destaque'}</Text>
+            <Text style={styles.sectionSubtitle}>Toque no card para ver detalhes</Text>
           </View>
         </View>
 
@@ -165,16 +165,16 @@ function ComparativoTable({ touros, tableWidth }: { touros: Touro[]; tableWidth:
   return (
     <View style={[styles.table, { width: tableWidth }]}>
       <View style={styles.tableHeader}>
-        <Text style={[styles.tableCell, styles.rowLabel]}>Métrica</Text>
+      <Text style={[styles.tableCell, styles.rowLabel]}>Informação</Text>
         {touros.map((touro) => (
           <Text key={touro.id} numberOfLines={2} style={styles.tableHeaderCell}>
             {touro.nome}
           </Text>
         ))}
       </View>
-      <TableRow label="PTA" values={touros.map((touro) => formatKg(touro.pta))} winners={touros.map((touro) => touro.pta === best.pta)} />
+      <TableRow label="Mais leite" values={touros.map((touro) => formatKg(touro.pta))} winners={touros.map((touro) => touro.pta === best.pta)} />
       <TableRow
-        label="Acurácia"
+        label="Confiança"
         values={touros.map((touro) => `${touro.acuracia}%`)}
         winners={touros.map((touro) => touro.acuracia === best.acuracia)}
       />
@@ -184,7 +184,7 @@ function ComparativoTable({ touros, tableWidth }: { touros: Touro[]; tableWidth:
         winners={touros.map((touro) => touro.precoPorDose === best.preco)}
       />
       <TableRow
-        label="Úbere"
+        label="Corpo"
         values={touros.map((touro) => `${touro.fenotipo.compostoUbere}/9`)}
         winners={touros.map((touro) => touro.fenotipo.compostoUbere === best.ubere)}
       />

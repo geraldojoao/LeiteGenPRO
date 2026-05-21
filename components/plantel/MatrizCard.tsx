@@ -15,23 +15,27 @@ const statusConfig: Record<
   {
     color: string;
     background: string;
+    label: string;
     helper: string;
   }
 > = {
   Ativa: {
     color: colors.success,
     background: colors.emeraldSoft,
-    helper: 'Pronta para manejo',
+    label: 'Em leite',
+    helper: 'Tudo certo',
   },
   Seca: {
     color: colors.warning,
     background: colors.amberSoft,
-    helper: 'Monitorar retorno',
+    label: 'Seca',
+    helper: 'Acompanhar',
   },
   Descarte: {
     color: colors.danger,
     background: colors.redSoft,
-    helper: 'Revisar decisão',
+    label: 'Separar',
+    helper: 'Revisar hoje',
   },
 };
 
@@ -90,12 +94,12 @@ export function MatrizCard({ matriz, onPress, cardWidth }: MatrizCardProps): JSX
 
           <View style={[styles.status, { backgroundColor: status.background, borderColor: `${status.color}33` }]}>
             <View style={[styles.statusDot, { backgroundColor: status.color }]} />
-            <Text style={[styles.statusText, { color: status.color }]}>{matriz.status}</Text>
+            <Text style={[styles.statusText, { color: status.color }]}>{status.label}</Text>
           </View>
         </View>
 
         <View style={[styles.metrics, shouldStack && styles.metricsStack]}>
-          <Metric label="Produção média" value={`${formatNumber(matriz.producaoMediaLitros)} L`} icon="droplets" />
+          <Metric label="Leite médio" value={`${formatNumber(matriz.producaoMediaLitros)} L`} icon="droplets" />
           <Metric label="Lactações" value={String(matriz.numeroLactacoes)} icon="activity" />
           <Metric label="Idade" value={getAgeInYears(matriz.nascimento)} icon="calendar-clock" />
         </View>
@@ -159,8 +163,8 @@ const styles = StyleSheet.create({
   avatarWrap: {
     backgroundColor: colors.muted,
     borderColor: colors.border,
-    borderRadius: radii.lg,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     height: 76,
     overflow: 'hidden',
     width: 76,
@@ -168,8 +172,8 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.surface,
     borderColor: colors.border,
-    borderRadius: radii.xl,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     flexDirection: 'row',
     gap: spacing.lg,
     maxWidth: '100%',
@@ -193,7 +197,7 @@ const styles = StyleSheet.create({
   detailsText: {
     color: colors.accent,
     fontFamily: fonts.heading,
-    fontSize: 12,
+    fontSize: 16,
   },
   footer: {
     alignItems: 'center',
@@ -216,7 +220,7 @@ const styles = StyleSheet.create({
   helper: {
     alignItems: 'center',
     backgroundColor: colors.muted,
-    borderRadius: radii.pill,
+    borderRadius: radii.sm,
     flexDirection: 'row',
     gap: 6,
     maxWidth: '100%',
@@ -225,20 +229,20 @@ const styles = StyleSheet.create({
   },
   helperText: {
     fontFamily: fonts.heading,
-    fontSize: 11,
+    fontSize: 16,
   },
   meta: {
     color: colors.textSecondary,
     fontFamily: fonts.body,
-    fontSize: 13,
+    fontSize: 16,
     marginTop: 3,
   },
   metric: {
     alignItems: 'center',
     backgroundColor: colors.background,
     borderColor: colors.border,
-    borderRadius: radii.md,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     flex: 1,
     flexDirection: 'row',
     gap: spacing.sm,
@@ -256,7 +260,7 @@ const styles = StyleSheet.create({
   metricLabel: {
     color: colors.textSecondary,
     fontFamily: fonts.body,
-    fontSize: 11,
+    fontSize: 16,
   },
   metricTextWrap: {
     flex: 1,
@@ -265,7 +269,7 @@ const styles = StyleSheet.create({
   metricValue: {
     color: colors.textPrimary,
     fontFamily: fonts.heading,
-    fontSize: 14,
+    fontSize: 17,
     marginTop: 1,
   },
   metrics: {
@@ -287,8 +291,8 @@ const styles = StyleSheet.create({
   },
   status: {
     alignItems: 'center',
-    borderRadius: radii.pill,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     flexDirection: 'row',
     gap: 6,
     paddingHorizontal: spacing.sm,
@@ -301,7 +305,7 @@ const styles = StyleSheet.create({
   },
   statusText: {
     fontFamily: fonts.heading,
-    fontSize: 11,
+    fontSize: 16,
   },
   titleBlock: {
     flex: 1,

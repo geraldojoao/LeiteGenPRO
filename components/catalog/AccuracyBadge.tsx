@@ -12,14 +12,17 @@ interface AccuracyBadgeProps {
 
 export function AccuracyBadge({ nivel, acuracia, compact = false }: AccuracyBadgeProps): JSX.Element {
   const color = getRiskColor(nivel);
+  const confidenceLabel =
+    typeof acuracia === 'number'
+      ? `${compact ? 'Confiança' : 'Confiança da informação'} ${acuracia}%`
+      : compact
+        ? 'Confiança'
+        : 'Confiança da informação';
 
   return (
     <View style={[styles.badge, { backgroundColor: `${color}18`, borderColor: `${color}55` }]}>
       <MaterialCommunityIcons name={getRiskIcon(nivel) as never} size={compact ? 13 : 15} color={color} />
-      <Text style={[styles.text, { color }, compact && styles.compactText]}>
-        {compact ? (nivel.split('/')[0] ?? nivel).trim() : nivel}
-        {typeof acuracia === 'number' ? ` · ${acuracia}%` : ''}
-      </Text>
+      <Text style={[styles.text, { color }, compact && styles.compactText]}>{confidenceLabel}</Text>
     </View>
   );
 }
@@ -37,9 +40,9 @@ const styles = StyleSheet.create({
   },
   text: {
     fontFamily: fonts.heading,
-    fontSize: 11,
+    fontSize: 16,
   },
   compactText: {
-    fontSize: 10,
+    fontSize: 16,
   },
 });

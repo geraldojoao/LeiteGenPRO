@@ -29,8 +29,8 @@ export function CheckoutPaymentSelector({
   return (
     <View style={styles.card}>
       <View>
-        <Text style={styles.sectionTitle}>Método de pagamento</Text>
-        <Text style={styles.sectionSubtitle}>Ambiente demonstrativo. Nenhum pagamento será processado.</Text>
+        <Text style={styles.sectionTitle}>Forma de pagamento</Text>
+        <Text style={styles.sectionSubtitle}>Escolha apenas para registrar o pedido. Nada será cobrado.</Text>
       </View>
 
       <View style={styles.methodRow}>
@@ -64,9 +64,9 @@ function PixPanel({ total }: { total: number }): JSX.Element {
         <MaterialCommunityIcons name="qrcode" size={72} color={colors.primary} />
       </View>
       <View style={styles.panelContent}>
-        <Text style={styles.panelTitle}>Pix simulado</Text>
+        <Text style={styles.panelTitle}>Pix</Text>
         <Text style={styles.panelText}>
-          Valor de demonstração: {formatCurrency(total)}. A chave abaixo é fictícia e não gera cobrança.
+          Total: {formatCurrency(total)}. A chave abaixo é fictícia e não gera cobrança.
         </Text>
         <View style={styles.codeBox}>
           <Text numberOfLines={1} style={styles.codeText}>LEITEGEN-PRO-PIX-DEMO</Text>
@@ -80,14 +80,14 @@ function CardPanel({ total }: { total: number }): JSX.Element {
   return (
     <View style={styles.panel}>
       <View style={styles.cardMock}>
-        <Text style={styles.cardMockLabel}>Cartão simulado</Text>
+        <Text style={styles.cardMockLabel}>Cartão</Text>
         <Text style={styles.cardMockNumber}>•••• •••• •••• 0000</Text>
         <Text style={styles.cardMockValue}>{formatCurrency(total)}</Text>
       </View>
       <View style={styles.panelContent}>
         <Text style={styles.panelTitle}>Cartão de crédito</Text>
         <Text style={styles.panelText}>
-          Interface apenas visual. Não informe número, validade ou CVV de cartão real nesta simulação.
+          Tela demonstrativa. Não informe dados de cartão real.
         </Text>
       </View>
     </View>
@@ -101,7 +101,7 @@ function BoletoPanel({ total }: { total: number }): JSX.Element {
         <MaterialCommunityIcons name="barcode" size={72} color={colors.primary} />
       </View>
       <View style={styles.panelContent}>
-        <Text style={styles.panelTitle}>Boleto demonstrativo</Text>
+        <Text style={styles.panelTitle}>Boleto</Text>
         <Text style={styles.panelText}>
           Um boleto fictício de {formatCurrency(total)} seria enviado por e-mail após a solicitação.
         </Text>
@@ -116,8 +116,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: colors.cream,
     borderColor: colors.border,
-    borderRadius: radii.md,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     height: 112,
     justifyContent: 'center',
     width: 132,
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.surface,
     borderColor: colors.border,
-    borderRadius: radii.md,
+    borderRadius: radii.sm,
     borderWidth: 1,
     gap: spacing.md,
     padding: spacing.lg,
@@ -142,17 +142,17 @@ const styles = StyleSheet.create({
   cardMockLabel: {
     color: '#dcecdf',
     fontFamily: fonts.body,
-    fontSize: 11,
+    fontSize: 16,
   },
   cardMockNumber: {
     color: colors.surface,
     fontFamily: fonts.mono,
-    fontSize: 13,
+    fontSize: 16,
   },
   cardMockValue: {
     color: colors.secondary,
     fontFamily: fonts.heading,
-    fontSize: 15,
+    fontSize: 18,
   },
   codeBox: {
     backgroundColor: colors.cream,
@@ -165,19 +165,19 @@ const styles = StyleSheet.create({
   codeText: {
     color: colors.primary,
     fontFamily: fonts.mono,
-    fontSize: 12,
+    fontSize: 16,
   },
   methodButton: {
     alignItems: 'center',
     backgroundColor: colors.cream,
     borderColor: colors.border,
-    borderRadius: radii.pill,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     flex: 1,
     flexDirection: 'row',
     gap: spacing.sm,
     justifyContent: 'center',
-    minHeight: 44,
+    minHeight: 60,
     minWidth: 118,
     paddingHorizontal: spacing.md,
   },
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
   methodText: {
     color: colors.primary,
     fontFamily: fonts.heading,
-    fontSize: 12,
+    fontSize: 17,
   },
   methodTextActive: {
     color: colors.surface,
@@ -217,18 +217,18 @@ const styles = StyleSheet.create({
   panelHint: {
     color: colors.primary,
     fontFamily: fonts.heading,
-    fontSize: 12,
+    fontSize: 16,
   },
   panelText: {
     color: colors.textSecondary,
     fontFamily: fonts.body,
-    fontSize: 13,
-    lineHeight: 19,
+    fontSize: 16,
+    lineHeight: 22,
   },
   panelTitle: {
     color: colors.primary,
     fontFamily: fonts.heading,
-    fontSize: 15,
+    fontSize: 18,
   },
   pressed: {
     opacity: 0.82,
@@ -246,13 +246,13 @@ const styles = StyleSheet.create({
   sectionSubtitle: {
     color: colors.textSecondary,
     fontFamily: fonts.body,
-    fontSize: 13,
-    lineHeight: 19,
+    fontSize: 16,
+    lineHeight: 22,
     marginTop: 3,
   },
   sectionTitle: {
     color: colors.textPrimary,
     fontFamily: fonts.heading,
-    fontSize: 18,
+    fontSize: 22,
   },
 });

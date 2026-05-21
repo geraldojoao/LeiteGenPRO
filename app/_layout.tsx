@@ -52,7 +52,7 @@ export default function RootLayout(): JSX.Element | null {
         <Stack.Screen
           name="checkout"
           options={{
-            headerTitle: 'Pagamento Simulado',
+            headerTitle: 'Finalizar pedido',
             headerBackTitle: 'Voltar',
             headerRight: () => <CartShortcut compact />,
           }}
@@ -60,7 +60,7 @@ export default function RootLayout(): JSX.Element | null {
         <Stack.Screen
           name="touro/[id]"
           options={{
-            headerTitle: 'Detalhes do Reprodutor',
+            headerTitle: 'Detalhes do touro',
             headerBackTitle: 'Voltar',
             headerRight: () => <CartShortcut compact />,
           }}

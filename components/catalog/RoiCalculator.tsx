@@ -31,8 +31,8 @@ export function RoiCalculator({ touro }: RoiCalculatorProps): JSX.Element {
           <MaterialCommunityIcons name="cash-fast" size={23} color={colors.primary} />
         </View>
         <View style={styles.headerText}>
-          <Text style={styles.title}>Simule seu Retorno</Text>
-          <Text style={styles.subtitle}>ROI estimado por lactação futura</Text>
+          <Text style={styles.title}>Simule quanto pode render</Text>
+          <Text style={styles.subtitle}>Estimativa simples para as próximas filhas</Text>
         </View>
       </View>
 
@@ -66,40 +66,40 @@ export function RoiCalculator({ touro }: RoiCalculatorProps): JSX.Element {
       </View>
 
       <Pressable
-        accessibilityLabel="Calcular ROI"
+        accessibilityLabel="Calcular ganho"
         onPress={() => setCalculated(true)}
         style={({ pressed }) => [styles.button, pressed && styles.pressed]}
       >
         <MaterialCommunityIcons name="calculator-variant" size={18} color={colors.surface} />
-        <Text style={styles.buttonText}>Calcular ROI</Text>
+        <Text style={styles.buttonText}>Calcular ganho</Text>
       </Pressable>
 
       {calculated && (
         <View style={styles.result}>
-          <ResultRow label="Ganho estimado por progênie" value={formatKg(roi.ganhoEstimadoLitros)} positive />
-          <ResultRow label="Valor monetário por bezerra" value={formatCurrency(roi.valorMonetarioPorProgenie)} />
+          <ResultRow label="Mais leite por filha" value={formatKg(roi.ganhoEstimadoLitros)} positive />
+          <ResultRow label="Valor por bezerra" value={formatCurrency(roi.valorMonetarioPorProgenie)} />
           <ResultRow label="Custo total das doses" value={formatCurrency(roi.custoTotal)} />
-          <ResultRow label="ROI estimado" value={`${roi.roiPercentual >= 0 ? '+' : ''}${formatNumber(roi.roiPercentual, 1)}%`} positive={roi.roiPercentual >= 0} />
-          <ResultRow label="Lucro líquido estimado" value={formatCurrency(roi.lucroLiquidoEstimado)} positive={roi.lucroLiquidoEstimado >= 0} />
-          <ResultRow label="Payback em" value={`${formatNumber(roi.paybackEmLactacoes, 1)} lactações`} />
+          <ResultRow label="Retorno estimado" value={`${roi.roiPercentual >= 0 ? '+' : ''}${formatNumber(roi.roiPercentual, 1)}%`} positive={roi.roiPercentual >= 0} />
+          <ResultRow label="Ganho líquido estimado" value={formatCurrency(roi.lucroLiquidoEstimado)} positive={roi.lucroLiquidoEstimado >= 0} />
+          <ResultRow label="Volta em" value={`${formatNumber(roi.paybackEmLactacoes, 1)} lactações`} />
         </View>
       )}
 
       {touro.tipoSemen === 'Sexado Fêmea' && (
         <View style={styles.sexadoBox}>
-          <Text style={styles.sexadoTitle}>Sêmen Sexado · Custo por Fêmea Nascida</Text>
-          <Text style={styles.sexadoLine}>Taxa de fêmeas nascidas: ~92%</Text>
-          <Text style={styles.sexadoLine}>Taxa de concepção sexado: ~65%</Text>
-          <Text style={styles.sexadoLine}>Doses necessárias para 1 fêmea: ~1,67</Text>
+          <Text style={styles.sexadoTitle}>Mais chance de bezerras</Text>
+          <Text style={styles.sexadoLine}>Fêmeas nascidas: perto de 92%</Text>
+          <Text style={styles.sexadoLine}>Pegamento estimado: perto de 65%</Text>
+          <Text style={styles.sexadoLine}>Doses para 1 fêmea: perto de 1,67</Text>
           <Text style={styles.sexadoValue}>{formatCurrency(semen.custoFemeaNascida)}</Text>
           <Text style={styles.sexadoRecommendation}>
-            Recomendado quando a reposição de fêmeas leiteiras vale mais que o diferencial de custo da dose.
+            Bom quando a fazenda quer aumentar a reposição de fêmeas leiteiras.
           </Text>
         </View>
       )}
 
       <Text style={styles.disclaimer}>
-        Valores estimados. Resultados reais dependem de manejo, ambiente e genética da matriz.
+        Valores estimados. Resultados reais dependem de manejo, ambiente e genética da vaca.
       </Text>
     </View>
   );
@@ -118,20 +118,22 @@ const styles = StyleSheet.create({
   button: {
     alignItems: 'center',
     backgroundColor: colors.primary,
-    borderRadius: radii.pill,
+    borderRadius: radii.sm,
     flexDirection: 'row',
     gap: spacing.sm,
     justifyContent: 'center',
-    paddingVertical: 13,
+    minHeight: 60,
   },
   buttonText: {
     color: colors.surface,
     fontFamily: fonts.heading,
-    fontSize: 14,
+    fontSize: 17,
   },
   card: {
     backgroundColor: colors.surface,
-    borderRadius: radii.md,
+    borderColor: colors.border,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     gap: spacing.md,
     maxWidth: '100%',
     padding: spacing.lg,
@@ -140,8 +142,8 @@ const styles = StyleSheet.create({
   disclaimer: {
     color: colors.textSecondary,
     fontFamily: fonts.body,
-    fontSize: 12,
-    lineHeight: 18,
+    fontSize: 16,
+    lineHeight: 22,
   },
   field: {
     flex: 1,
@@ -175,17 +177,17 @@ const styles = StyleSheet.create({
     backgroundColor: colors.cream,
     borderColor: colors.border,
     borderRadius: radii.sm,
-    borderWidth: 1,
+    borderWidth: 2,
     color: colors.textPrimary,
     fontFamily: fonts.heading,
     fontSize: 16,
     paddingHorizontal: spacing.md,
-    paddingVertical: 11,
+    minHeight: 60,
   },
   label: {
     color: colors.textSecondary,
     fontFamily: fonts.body,
-    fontSize: 12,
+    fontSize: 16,
   },
   positive: {
     color: colors.success,
@@ -196,8 +198,8 @@ const styles = StyleSheet.create({
   result: {
     backgroundColor: colors.cream,
     borderColor: colors.border,
-    borderRadius: radii.md,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     gap: spacing.sm,
     padding: spacing.md,
   },
@@ -205,7 +207,7 @@ const styles = StyleSheet.create({
     color: colors.textSecondary,
     flex: 1,
     fontFamily: fonts.body,
-    fontSize: 13,
+    fontSize: 16,
     minWidth: 142,
   },
   resultRow: {
@@ -218,34 +220,34 @@ const styles = StyleSheet.create({
   resultValue: {
     color: colors.textPrimary,
     fontFamily: fonts.heading,
-    fontSize: 14,
+    fontSize: 17,
     flexShrink: 1,
     textAlign: 'right',
   },
   sexadoBox: {
     backgroundColor: colors.amberSoft,
     borderColor: `${colors.secondary}55`,
-    borderRadius: radii.md,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     gap: 4,
     padding: spacing.md,
   },
   sexadoLine: {
     color: colors.textSecondary,
     fontFamily: fonts.body,
-    fontSize: 13,
+    fontSize: 16,
   },
   sexadoRecommendation: {
     color: colors.brown,
     fontFamily: fonts.body,
-    fontSize: 12,
-    lineHeight: 18,
+    fontSize: 16,
+    lineHeight: 22,
     marginTop: 4,
   },
   sexadoTitle: {
     color: colors.warning,
     fontFamily: fonts.heading,
-    fontSize: 14,
+    fontSize: 18,
     marginBottom: 3,
   },
   sexadoValue: {
@@ -257,11 +259,11 @@ const styles = StyleSheet.create({
   subtitle: {
     color: colors.textSecondary,
     fontFamily: fonts.body,
-    fontSize: 13,
+    fontSize: 16,
   },
   title: {
     color: colors.textPrimary,
     fontFamily: fonts.heading,
-    fontSize: 18,
+    fontSize: 22,
   },
 });

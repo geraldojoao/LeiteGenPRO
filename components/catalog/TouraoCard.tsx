@@ -41,6 +41,26 @@ function Tag({ icon, label, color }: { icon: keyof typeof MaterialCommunityIcons
   );
 }
 
+function getSimpleBenefits(touro: Touro): { icon: keyof typeof MaterialCommunityIcons.glyphMap; label: string; color: string }[] {
+  const benefits: { icon: keyof typeof MaterialCommunityIcons.glyphMap; label: string; color: string }[] = [
+    { icon: 'water-plus', label: 'Mais leite', color: colors.primary },
+  ];
+
+  if (touro.deps.facilidadeParto >= 87) {
+    benefits.push({ icon: 'baby-face-outline', label: 'Parto fácil', color: colors.success });
+  }
+
+  if (touro.tipoSemen === 'Sexado Fêmea' || touro.fenotipo.pernasEPes >= 7.5) {
+    benefits.push({ icon: 'heart-plus-outline', label: 'Bezerras fortes', color: colors.warning });
+  }
+
+  if (benefits.length < 3) {
+    benefits.push({ icon: 'shield-check-outline', label: 'Boa confiança', color: colors.success });
+  }
+
+  return benefits.slice(0, 3);
+}
+
 function TouraoCardComponent({
   touro,
   score,
@@ -56,6 +76,7 @@ function TouraoCardComponent({
   const isFavorito = useFavoritesStore((state) => state.isFavorito);
   const toggleFavorito = useFavoritesStore((state) => state.toggleFavorito);
   const favorito = isFavorito(touro.id);
+  const benefits = getSimpleBenefits(touro);
 
   const openDetails = useCallback(() => {
     router.push({ pathname: '/touro/[id]', params: { id: touro.id } });
@@ -109,6 +130,15 @@ function TouraoCardComponent({
           <SemenBadge tipo={touro.tipoSemen} alerta={touro.qualidadeSemen.alerta} compact={compact} />
         </View>
 
+        <View style={styles.benefits}>
+          {benefits.map((benefit) => (
+            <View key={benefit.label} style={[styles.benefitChip, { backgroundColor: `${benefit.color}14` }]}>
+              <MaterialCommunityIcons name={benefit.icon} size={17} color={benefit.color} />
+              <Text style={[styles.benefitText, { color: benefit.color }]}>{benefit.label}</Text>
+            </View>
+          ))}
+        </View>
+
         {showTags && (
           <View style={styles.tags}>
             {touro.nivelRisco === 'Provado / Baixo Risco' && <Tag icon="fire" label="Provado" color={colors.success} />}
@@ -120,16 +150,16 @@ function TouraoCardComponent({
 
         <View style={styles.metricsGrid}>
           <View>
-            <Text style={styles.metricLabel}>PTA Leite</Text>
+            <Text style={styles.metricLabel}>Ajuda a aumentar o leite</Text>
             <Text style={styles.metricValue}>{formatKg(touro.pta)}</Text>
           </View>
           <View>
-            <Text style={styles.metricLabel}>Acurácia</Text>
+            <Text style={styles.metricLabel}>Confiança da informação</Text>
             <Text style={styles.metricValue}>{touro.acuracia}%</Text>
           </View>
           {typeof score === 'number' && (
             <View>
-              <Text style={styles.metricLabel}>Score</Text>
+              <Text style={styles.metricLabel}>Qualidade genética</Text>
               <Text style={styles.metricValue}>{score.toFixed(1)}</Text>
             </View>
           )}
@@ -164,7 +194,7 @@ function TouraoCardComponent({
                 isCompactHorizontal && styles.compactDetailButton,
               ]}
             >
-              <Text numberOfLines={1} style={styles.detailText}>{isCompactHorizontal ? 'Ver também' : 'Ver detalhes'}</Text>
+              <Text numberOfLines={1} style={styles.detailText}>{isCompactHorizontal ? 'Ver' : 'Ver touro'}</Text>
             </Pressable>
             <Pressable
               accessibilityLabel={favorito ? `Remover ${touro.nome} dos favoritos` : `Favoritar ${touro.nome}`}
@@ -200,6 +230,23 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     gap: spacing.sm,
   },
+  benefitChip: {
+    alignItems: 'center',
+    borderRadius: radii.sm,
+    flexDirection: 'row',
+    gap: spacing.xs,
+    minHeight: 38,
+    paddingHorizontal: spacing.sm,
+  },
+  benefits: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: spacing.sm,
+  },
+  benefitText: {
+    fontFamily: fonts.heading,
+    fontSize: 16,
+  },
   barFill: {
     backgroundColor: colors.primary,
     borderRadius: radii.pill,
@@ -215,13 +262,13 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: colors.surface,
     borderColor: colors.border,
-    borderRadius: radii.md,
-    borderWidth: 1,
+    borderRadius: radii.sm,
+    borderWidth: 2,
     flexDirection: 'row',
     gap: spacing.md,
     maxWidth: '100%',
     minWidth: 0,
-    padding: spacing.md,
+    padding: spacing.lg,
     ...shadows.card,
   },
   central: {
@@ -238,7 +285,7 @@ const styles = StyleSheet.create({
   centralName: {
     color: colors.textPrimary,
     fontFamily: fonts.heading,
-    fontSize: 12,
+    fontSize: 16,
   },
   compactCard: {
     maxWidth: '100%',
@@ -270,9 +317,10 @@ const styles = StyleSheet.create({
   },
   detailButton: {
     backgroundColor: colors.primary,
-    borderRadius: radii.pill,
-    paddingHorizontal: spacing.md,
-    paddingVertical: 9,
+    borderRadius: radii.sm,
+    justifyContent: 'center',
+    minHeight: 60,
+    paddingHorizontal: spacing.lg,
   },
   detailButtonStack: {
     alignItems: 'center',
@@ -281,7 +329,7 @@ const styles = StyleSheet.create({
   detailText: {
     color: colors.surface,
     fontFamily: fonts.heading,
-    fontSize: 12,
+    fontSize: 17,
   },
   favoriteActive: {
     backgroundColor: colors.redSoft,
@@ -291,11 +339,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: colors.emeraldSoft,
     borderColor: `${colors.primary}25`,
-    borderRadius: radii.pill,
-    borderWidth: 1,
-    height: 36,
+    borderRadius: radii.sm,
+    borderWidth: 2,
+    height: 60,
     justifyContent: 'center',
-    width: 36,
+    width: 60,
   },
   footer: {
     alignItems: 'center',
@@ -319,8 +367,8 @@ const styles = StyleSheet.create({
   image: {
     backgroundColor: colors.muted,
     borderRadius: radii.sm,
-    height: 124,
-    width: 108,
+    height: 152,
+    width: 126,
   },
   logo: {
     alignItems: 'center',
@@ -333,17 +381,18 @@ const styles = StyleSheet.create({
   logoText: {
     color: colors.surface,
     fontFamily: fonts.heading,
-    fontSize: 10,
+    fontSize: 16,
   },
   metricLabel: {
     color: colors.textSecondary,
     fontFamily: fonts.body,
-    fontSize: 11,
+    fontSize: 16,
+    lineHeight: 20,
   },
   metricValue: {
     color: colors.textPrimary,
     fontFamily: fonts.heading,
-    fontSize: 14,
+    fontSize: 18,
     marginTop: 2,
   },
   metricsGrid: {
@@ -354,7 +403,7 @@ const styles = StyleSheet.create({
   name: {
     color: colors.textPrimary,
     fontFamily: fonts.heading,
-    fontSize: 17,
+    fontSize: 21,
   },
   pressed: {
     opacity: 0.82,
@@ -363,24 +412,24 @@ const styles = StyleSheet.create({
   price: {
     color: colors.secondary,
     fontFamily: fonts.heading,
-    fontSize: 12,
+    fontSize: 16,
     marginTop: 2,
   },
   raceBadge: {
     backgroundColor: colors.amberSoft,
-    borderRadius: radii.pill,
+    borderRadius: radii.sm,
     paddingHorizontal: spacing.sm,
     paddingVertical: 5,
   },
   raceText: {
     color: colors.warning,
     fontFamily: fonts.heading,
-    fontSize: 10,
+    fontSize: 16,
   },
   registry: {
     color: colors.textSecondary,
     fontFamily: fonts.body,
-    fontSize: 12,
+    fontSize: 16,
     marginTop: 2,
   },
   tag: {
@@ -393,7 +442,7 @@ const styles = StyleSheet.create({
   },
   tagText: {
     fontFamily: fonts.heading,
-    fontSize: 10,
+    fontSize: 16,
   },
   stackedCard: {
     flexDirection: 'column',
@@ -419,14 +468,14 @@ const styles = StyleSheet.create({
   traitLabel: {
     color: colors.textSecondary,
     fontFamily: fonts.body,
-    fontSize: 11,
-    width: 44,
+    fontSize: 16,
+    width: 68,
   },
   traitScore: {
     color: colors.textPrimary,
     fontFamily: fonts.heading,
-    fontSize: 11,
-    width: 26,
+    fontSize: 16,
+    width: 42,
   },
   traits: {
     gap: 6,
