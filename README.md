@@ -24,16 +24,6 @@ Dairy farmers in Brazil manage hundreds of cows and make costly breeding decisio
 
 ---
 
-## Screenshots
-
-> _(Add screenshots here — see [docs/screenshots/](docs/screenshots/))_
-
-| Dashboard | Bull Catalog | Bull Detail | Herd Management |
-|-----------|-------------|-------------|-----------------|
-| ![Dashboard](docs/screenshots/dashboard.png) | ![Catalog](docs/screenshots/catalog.png) | ![Detail](docs/screenshots/detail.png) | ![Herd](docs/screenshots/herd.png) |
-
----
-
 ## Features
 
 - **Dashboard** — daily summary, alerts, and operational shortcuts
