@@ -8,7 +8,7 @@
 
 Helping rural producers make data-driven decisions to improve herd productivity and milk quality.
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20App-2E7D32?style=for-the-badge&logo=vercel)](https://leitegen-pro.vercel.app/)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20App-2E7D32?style=for-the-badge&logo=vercel)](https://leitegen-pro.vercel.app/)                                                                                                                                                                                                                                                                                      
 [![Expo SDK](https://img.shields.io/badge/Expo-SDK%2051-000020?style=flat-square&logo=expo)](https://expo.dev)
 [![React Native](https://img.shields.io/badge/React%20Native-0.74-61DAFB?style=flat-square&logo=react)](https://reactnative.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
