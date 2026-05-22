@@ -1,148 +1,170 @@
+<div align="center">
+
+<img src="assets/icon.png" alt="LeiteGen Pro" width="96" />
+
 # LeiteGen Pro
 
-![Expo](https://img.shields.io/badge/Expo-SDK%2051-000020?logo=expo)
-![React Native](https://img.shields.io/badge/React%20Native-0.74-61DAFB?logo=react)
-![TypeScript](https://img.shields.io/badge/TypeScript-5.3-3178C6?logo=typescript&logoColor=white)
-![Status](https://img.shields.io/badge/status-MVP%20funcional-2E7D32)
-![License](https://img.shields.io/badge/license-a%20definir-lightgrey)
+**A mobile-first platform for dairy cattle management and bull selection based on genetics.**
 
-LeiteGen Pro é um aplicativo Expo/React Native para gestão simples de rebanho leiteiro, catálogo de touros e apoio à tomada de decisão em acasalamentos. O MVP foi pensado para produtores rurais e equipes de fazenda, com navegação direta, leitura rápida, botões grandes e funcionamento offline-first.
+Helping rural producers make data-driven decisions to improve herd productivity and milk quality.
 
-O projeto usa dados locais simulados e persistência no dispositivo. Não há backend, autenticação real nem cobrança real nesta versão.
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-Visit%20App-2E7D32?style=for-the-badge&logo=vercel)](https://leitegen-pro.vercel.app/)
+[![Expo SDK](https://img.shields.io/badge/Expo-SDK%2051-000020?style=flat-square&logo=expo)](https://expo.dev)
+[![React Native](https://img.shields.io/badge/React%20Native-0.74-61DAFB?style=flat-square&logo=react)](https://reactnative.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.3-3178C6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
 
-## Funcionalidades
+</div>
 
-- Painel inicial com resumo do dia, alertas e atalhos operacionais.
-- Gestão de matrizes com cadastro, filtros por situação e indicadores de atenção.
-- Catálogo de touros com busca e filtros por raça, sêmen, bioma, preço e características genéticas.
-- Favoritos e carrinho para montar uma seleção de touros.
-- Checkout visual simulado para demonstração do fluxo de compra.
-- Tela detalhada do touro com DEPs, qualidade do sêmen, adaptação climática e simulação de retorno.
-- Recomendações de acasalamento com base nos dados da matriz.
-- Persistência local para uso offline durante a demonstração.
+---
 
-## Stack
+## The Problem It Solves
 
-- Expo SDK 51
-- React Native 0.74
-- React 18
-- TypeScript
-- Expo Router
-- Zustand
-- AsyncStorage
-- MMKV
-- React Native SVG
-- Expo Google Fonts
-- Expo Vector Icons
-- Vercel para publicação web
+Dairy farmers in Brazil manage hundreds of cows and make costly breeding decisions — often without access to organized genetic data or decision-support tools. A wrong bull selection can affect herd productivity for years. **LeiteGen Pro** centralizes bull genetics (DEPs), semen availability, herd matrix management, and ROI simulation in a single offline-capable app designed for real field conditions.
 
-## Pré-Requisitos
+---
+
+## Screenshots
+
+> _(Add screenshots here — see [docs/screenshots/](docs/screenshots/))_
+
+| Dashboard | Bull Catalog | Bull Detail | Herd Management |
+|-----------|-------------|-------------|-----------------|
+| ![Dashboard](docs/screenshots/dashboard.png) | ![Catalog](docs/screenshots/catalog.png) | ![Detail](docs/screenshots/detail.png) | ![Herd](docs/screenshots/herd.png) |
+
+---
+
+## Features
+
+- **Dashboard** — daily summary, alerts, and operational shortcuts
+- **Herd Management** — register and filter cows by status with attention indicators
+- **Bull Catalog** — search and filter by breed, semen availability, biome, price, and genetic traits
+- **Bull Detail** — DEPs, semen quality, climate adaptation, and ROI simulation
+- **Favorites & Cart** — build and save a bull selection
+- **Breeding Recommendations** — match bulls to individual cows based on matrix data
+- **Visual Checkout** — simulated purchase flow for demo purposes
+- **Offline-first** — full functionality without an internet connection
+
+---
+
+## Tech Stack
+
+| Technology | Purpose |
+|---|---|
+| [Expo SDK 51](https://expo.dev) | Mobile/web app framework |
+| [React Native 0.74](https://reactnative.dev) | Cross-platform UI |
+| [TypeScript 5.3](https://www.typescriptlang.org) | Type safety |
+| [Expo Router](https://expo.github.io/router) | File-based routing |
+| [Zustand](https://zustand-demo.pmnd.rs) | Lightweight state management |
+| [MMKV](https://github.com/mrousavy/react-native-mmkv) | Fast local persistence |
+| [React Native SVG](https://github.com/software-mansion/react-native-svg) | Data visualization |
+| [Expo Linear Gradient](https://docs.expo.dev/versions/latest/sdk/linear-gradient/) | Visual polish |
+| [Vercel](https://vercel.com) | Web deployment |
+
+---
+
+## Architecture
+
+```
+LeiteGenPRO/
+├── app/                  # Expo Router routes & screens
+│   ├── (tabs)/           # Main tab navigation
+│   ├── touro/[id].tsx    # Bull detail screen
+│   └── checkout.tsx      # Visual checkout flow
+├── components/           # Reusable UI components (organized by domain)
+│   ├── catalog/
+│   ├── checkout/
+│   ├── common/
+│   └── plantel/
+├── logic/                # Pure business rules (framework-agnostic)
+├── store/                # Zustand stores
+├── types/                # Centralized TypeScript types
+├── hooks/                # Custom React hooks
+├── utils/                # Formatters and utilities
+├── constants/            # Theme and domain constants
+└── data/                 # Local mock data (simulated)
+```
+
+The `logic/` layer contains pure business rules with no framework dependencies — making them easy to test and migrate to a future backend.
+
+---
+
+## Getting Started
+
+### Prerequisites
 
 - Node.js LTS
 - npm
 - Git
-- Expo via `npx`
 
-## Instalação
-
-Clone o repositório e instale as dependências:
+### Installation
 
 ```bash
+git clone https://github.com/geraldojoao/LeiteGenPRO.git
+cd LeiteGenPRO
 npm install
 ```
 
-## Execução Local
-
-Inicie o ambiente Expo:
+### Running Locally
 
 ```bash
-npm run start
+npm run start       # Start Expo (interactive menu)
+npm run web         # Open in browser directly
+npm run android     # Open on Android device/emulator
+npm run ios         # Open on iOS simulator
 ```
 
-Atalhos úteis no terminal do Expo:
-
-- `w` abre a versão web.
-- `a` abre no Android.
-- `i` abre no iOS.
-
-Também é possível iniciar diretamente no navegador:
+### Available Scripts
 
 ```bash
-npm run web
+npm run typecheck   # TypeScript validation
+npm run lint        # ESLint check
+npm run build:web   # Generate web build → dist/
 ```
 
-## Scripts
+---
 
-```bash
-npm run start       # inicia o Expo
-npm run android     # inicia no Android
-npm run ios         # inicia no iOS
-npm run web         # inicia no navegador
-npm run typecheck   # valida TypeScript
-npm run lint        # executa ESLint
-npm run build:web   # gera build web em dist/
-```
+## Web Deployment (Vercel)
 
-## Estrutura De Pastas
+The project includes `vercel.json` for Expo web export.
 
-```text
-app/                    Rotas e telas do Expo Router
-  (tabs)/               Abas principais do aplicativo
-  touro/[id].tsx        Tela de detalhe de touro
-  checkout.tsx          Fluxo de checkout visual
+| Setting | Value |
+|---|---|
+| Install Command | `npm install` |
+| Build Command | `npm run build:web` |
+| Output Directory | `dist` |
 
-assets/                 Ícones, splash screen e favicon
-components/             Componentes reutilizáveis organizados por domínio
-  catalog/              UI do catálogo de touros
-  checkout/             Componentes do checkout
-  common/               Componentes compartilhados
-  plantel/              Componentes do rebanho
+**Live:** [https://leitegen-pro.vercel.app](https://leitegen-pro.vercel.app)
 
-constants/              Tema visual e constantes de domínio
-data/                   Dados locais simulados
-hooks/                  Hooks reutilizáveis
-logic/                  Regras de negócio puras
-store/                  Stores Zustand
-types/                  Tipos TypeScript do domínio
-utils/                  Formatadores e utilitários
-docs/                   Documentação técnica complementar
-```
+---
 
-## Qualidade
+## Roadmap
 
-- Código separado por responsabilidade.
-- Componentes agrupados por domínio.
-- Regras de negócio isoladas em `logic/`.
-- Tipos centralizados em `types/`.
-- Dados simulados em `data/`.
-- Arquivos gerados, caches e dependências locais protegidos pelo `.gitignore`.
+- [x] MVP with offline-first architecture
+- [x] Bull catalog with genetics and DEP data
+- [x] Herd matrix management
+- [x] ROI simulation and breeding recommendations
+- [x] Web deployment via Vercel
+- [ ] Real backend integration (Supabase)
+- [ ] Producer authentication
+- [ ] Herd sync across devices
+- [ ] Push notifications for breeding alerts
+- [ ] EAD/training module for producers
+- [ ] Unit test coverage
 
-Antes de publicar ou abrir uma pull request, rode:
+---
 
-```bash
-npm run typecheck
-npm run lint
-```
+## Contributing
 
-## Publicação Web
+This project is currently an MVP. To contribute:
 
-O projeto inclui [vercel.json](./vercel.json) para exportar a versão web do Expo.
+1. Branch off `main`
+2. Keep changes small and focused
+3. Run `npm run typecheck && npm run lint` before committing
+4. Open a pull request describing the goal, affected screens, and tests run
 
-Configuração recomendada na Vercel:
+---
 
-- Install Command: `npm install`
-- Build Command: `npm run build:web`
-- Output Directory: `dist`
+## License
 
-## Contribuição
-
-Este projeto ainda é um MVP. Para contribuir:
-
-1. Crie uma branch a partir de `main`.
-2. Faça alterações pequenas e focadas.
-3. Rode `npm run typecheck` e `npm run lint`.
-4. Abra um pull request descrevendo o objetivo, as telas afetadas e os testes executados.
-
-## Licença
-
-A licença ainda não foi definida. Antes de publicar o repositório como público, escolha uma licença compatível com o objetivo do projeto, por exemplo MIT para portfólio/open source ou uma licença proprietária se o código não puder ser reutilizado.
+This project is licensed under the [MIT License](LICENSE).
